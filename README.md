@@ -1,16 +1,17 @@
-# Spent - Learn to build cloud-connected mobile apps for iOS, Android, and Windows
-Learn how to build connected, cross-platform mobile apps for iOS, Android, and Windows with Xamarin.Forms and Microsoft Azure. This training walks you through the process of building a mobile app for tracking expenses named Spent. Over the course of five modules, you will create the Spent mobile app with Xamarin.Forms, connect it to the cloud with Azure Mobile Apps and Azure Storage, and establish solid Mobile DevOps with Visual Studio Team Services and HockeyApp.
+# Spent - Aprende a programar aplicaciones móviles conectadas a la nube para iOS, Android y Windows Phone
+Aprende a construir aplicaciones móviles conectadas a la nube para iOS, Android y Windows con Xamarin.Forms y Microsoft Azure. Este ejercicio te guiará en el proceso de construcción de aplicaciones móviles para hacer un seguimiento de gastos llamado Spent. A lo largo de los cinco módulos del curso, vas a crear una aplicación móvil con Xamarin.Formns, la conectarás a la nube con Azure Mobile Apps y Azure Storage, y usarás Mobile DevOps con Visual Studio Team Services y HockeyApp.
 
-### Overview
-The training is broken down into five self-contained modules:
+### Resumen
 
-1. [Building Your First Xamarin.Forms App](/modules/module-1/).
-2. [Extending Your First Xamarin.Forms App](/modules/module-2/).
-3. [Building Connected Apps with Azure Mobile Apps](/modules/module-3/).
-4. [Saving Blobs to Azure Storage](/modules/module-4/).
-5. [Mobile DevOps with Visual Studio Team Services and HockeyApp](/modules/module-5/).
+Este taller se divide en cinco módulos:
 
-If you enjoyed this course, be sure to [let me know on Twitter](https://www.twitter.com/pierceboggan)! For an in-depth training on building connected mobile apps with Microsoft Azure, [visit my Learn Azure training](https://github.com/pierceboggan/learn-azure).
+1. [Crea tu primera aplicación Xamarin.Forms](/modules/module-1/).
+2. [Añadiendo más funcionalidades a la aplicación Xamarin.Forms](/modules/module-2/).
+3. [Creando aplicaciones conectadas con Azure Mobile Apps](/modules/module-3/).
+4. [Guardar blobs en el Azure Storage Explorer](/modules/module-4/).
+5. [Mobile DevOps con Visual Studio Team Services y HockeyApp](/modules/module-5/).
+
+Si te ha gustado este curso, [házmelo saber en Twitter](https://www.twitter.com/pierceboggan)! Si quieres un entrenamiento ya más profundo en aplicaciones móviles conectadas a la nube, [visita mi otro curso Learn Azure](https://github.com/pierceboggan/learn-azure).
 
 ### License
 Copyright (c) 2016 Pierce Boggan
