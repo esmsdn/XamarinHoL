@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Spent.ExpensesPage"
+		Title="Expenses">
+	<ContentPage.Content>
+		<ListView ItemsSource="{Binding Expenses}"
+					IsPullToRefreshEnabled="true"
+					IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+					RefreshCommand="{Binding GetExpensesCommand}"
+					SelectedItem="{Binding SelectedExpenseItem, Mode=TwoWay}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<TextCell Text="{Binding Company}" Detail="{Binding Amount}" />
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</ContentPage.Content>
+</ContentPage>
