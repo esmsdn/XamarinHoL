@@ -24,7 +24,7 @@ Crea un nuevo repositorio haciendo click en `+ ->  New respository`. A mano dere
 * `Public / Private`: Lo normal será tener el repositorio `Public`, pero también está la opción de hacerlo `Private`.
 * `Initialize this repository with a README` / `Add .gitignore` / `Add a license`: Todos estos son campos opcionales.
 
- ![](/modules/module-5/images/create-repository.png)
+ ![](/XmarinSpent/modules/module-5/images/create-repository.png)
 
 Haz click en `Create repository` y se te creará el repositorio. Selecciona `Clone or download -> Open in Desktop` para abrir el repositorio en el cliente GitHub de escritorio.
 
