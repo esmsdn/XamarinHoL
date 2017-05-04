@@ -1,31 +1,31 @@
-# Module 2: Extending Your First Xamarin.Forms App
-**Objective**: Continue to explore Xamarin.Forms features and functionality, including styles, user interface design, and performance enhancements.
+# Módulo 2: Extendiendo tu primera aplicación de Xamarin.Forms
+**Objetivos**: Continua explorando las características y funcionalidades de Xamarin.Forms, incluyendo estilos, diseño de interfaz de usuario y mejoras de rendimiento.
 
-##### Prerequisites
-Ensure you have the following software installed:
+##### Requisitos previos
+Asegúrate de que tienes instalado el siguiente software:
 
-* Visual Studio 2015 Community Edition (or higher) or Xamarin Studio Community Edition (or higher)
-* [Xamarin](xamarin.com/download)
+* Visual Studio 2015 Community Edition (o superior) o Xamarin Studio Community Edition (o superior)
+* [Xamarin] (xamarin.com/download)
 
-Download the starter code for this module to begin, or continue working with the completed code from Module 1.
+Descarga el código inicial de este módulo para comenzar o continua trabajando con el código completo del Módulo 1.
 
-### Module Instructions
-This module builds on Module 1 by extending your app even further to allow you to add your own expenses, including photos of receipts. We also take a look at the `DependencyService`, styles, native control embedding, as well as performance enhancements to build performant mobile apps.
+### Instrucciones del módulo
+Este módulo esta basado en el Módulo 1 ampliando aún más tu aplicación para permitirte agregar tus propios gastos, incluidas las fotos de los recibos. También echamos un vistazo al `DependencyService`, a los estilos, a la incrustación de control nativo, así como a las mejoras de rendimiento para crear aplicaciones móviles con gran rendimiento.
 
-##### 1. Create a data storage service with the `DependencyService`.
-The current architecture of Spent isn't bad, but there's definitely room for improvement, especially relating to data. We will likely need a way to access our expense data no matter where we are in the application (such as adding a new expense). Additionally, we also need flexibility in the event that we want to change how our data is stored in the future (such as in the cloud). 
+##### 1. Crea un servicio de almacenamiento de datos con el `DependencyService`.
+La arquitectura actual de Spent no es mala, pero definitivamente hay margen para mejorar, especialmente en relación a los datos. Es probable que necesitemos una forma de acceder a nuestros datos de gastos, sin que importe en que parte de la aplicación nos encontremos (como agregar un nuevo gasto). Además, también necesitamos flexibilidad en caso de que deseamos cambiar la forma en la que nuestros datos se almacenarán en el futuro (como la nube por ejemplo).
 
-We can use the Xamarin.Forms [`DependencyService`](https://developer.xamarin.com/guides/xamarin-forms/dependency-service/) to reduce coupling even further, and allow us to easily switch out data storage implementations with just one line of code. The `DependencyService` is a dependency resolver. In practice, an interface is defined and the `DependencyService` finds the correct implementation of that interface. This is often used in Xamarin.Forms apps to access platform-specific functionality and features, but we can use it as a regular dependency service as well. 
+Podemos utilizar el Xamarin.Forms [`DependencyService`] (https://developer.xamarin.com/guides/xamarin-forms/dependency-service/) para reducir aún más el acoplamiento y permitirnos cambiar fácilmente las implementaciones de almacenamiento de datos con una sola línea de código. El `DependencyService` resuelve dependencias. En la práctica, se define una interfaz y el `DependencyService` encuentra la implementación correcta para esa interfaz. Esto se utiliza a menudo en las aplicaciones de Xamarin.Forms para acceder a las funcionalidades y características específicas de la plataforma, pero también podemos usarla como un servicio de dependencia regular.
 
-There are three main parts to the `DependencyService`:
+Hay tres partes principales en el `DependencyService`:
 
-1. **Interface**: Defines the contract and required functionality for the service.
-2. **Implementation**: Implementation of the interface contract. We can have multiple implementations.
-3. **Registration**: Each implementing class must be registered with the `DependencyService` via a metadata attribute. This enables the `DependencyService` to find the implementing class and supply it at runtime.
+1. **Interface**: Define el contrato y la funcionalidad requerida para el servicio.
+2. **Implementation**: Implementación del contrato de interfaz. Podemos tener múltiples implementaciones.
+3. **Registration**: Cada clase de implementación debe estar registrada con el `DependencyService` a través de un atributo de metadatos. Esto permite que `DependencyService` encuentre la clase de implementación y lo suministre en tiempo de ejecución.
 
-For data, this is amazing! We can create an interface that defines a basic data storage contract and have multiple implementations. For example, we could have a cloud implementation that is used in production, as well as a mock data implementation (as we do now) that's used during testing.
+Para los datos, esto es increíble! Podemos crear una interfaz que defina un contrato básico de almacenamiento de datos y que tenga múltiples implementaciones. Por ejemplo, podríamos tener una implementación en la nube que se utilice en la producción, además de una implementación de datos falsos (como hemos hecho hasta ahota) que se utilice durante las pruebas.
 
-Let's create our first service! Start by right-clicking the `Services` folder, adding a new blank C# interface, and naming it `IDataService`. Let's define a two methods that each service must implement, `AddExpenseAsync` and `GetExpensesAsync`.
+¡Creemos nuestro primer servicio! Comienza haciendo clic derecho en la carpeta `Services`, añadiendo una nueva interfaz C# en blanco y llamándola `IDataService`. Vamos a definir dos métodos que cada servicio debe implementar, `AddExpenseAsync` y `GetExpensesAsync`.
 
 ```csharp
 using System;
@@ -42,7 +42,7 @@ namespace Spent
 }
 ```
 
-Next, let's create an implementation of our `IDataService` with mock data. Right-click the `Services` folder, and add a new blank C# class named `MockDataService`. Implement the `IDataService` interface.
+A continuación, crea una implementación de nuestro `IDataService` con datos simulados. Haz clic con el botón derecho en la carpeta `Services` y agrega una nueva clase C# en blanco llamada `MockDataService`. Implementa la interfaz `IDataService`.
 
 ```csharp
 using System;
@@ -68,13 +68,14 @@ namespace Spent
 }
 ```
 
-Great! Now let's implement our `MockDataService`. We will start by adding a `List<Expense>` for tracking expenses and `bool` for tracking if our mock data store has been initialized.
+¡Genial! Ahora implementa `MockDataService`. Comienza añadiendo una `List<Expense>` para hacer un seguimiento de los gastos y `bool` para controlar si nuestro almacen simulado ha sido inicializado.
 
 ```csharp
 bool isInitialized;
 List<Expense> expenses;
 ```
-Next, let's add a method named `Initialize` to intialize the expenses list with some mock data.
+
+A continuación, vamos a agregar un método llamado `Initialize` para inicializar la lista de gastos con algunos datos simulados.
 
 ```csharp
 void Initialize()
@@ -92,7 +93,7 @@ void Initialize()
 }
 ```
 
-Now that we have our data initialized, let's add implementations for our `AddExpenseAsync` and `GetExpensesAsync` methods.
+Ahora que tenemos nuestros datos inicializados, vamos a agregar implementaciones para nuestros métodos `AddExpenseAsync` y `GetExpensesAsync`.
 
 ```csharp
 public async Task AddExpenseAsync(Expense expense)
@@ -110,13 +111,13 @@ public async Task<IEnumerable<Expense>> GetExpensesAsync()
 }
 ```
 
-The final step required in working with `DependencyService` is registration. We can easily do this by adding the following attribute to the top of the namespace in the `MockDataService` class.
+El último paso necesario para trabajar con `DependencyService` es el registro. Podemos hacerlo fácilmente añadiendo el siguiente atributo a la parte superior del namespace de la clase `MockDataService`.
 
 ```csharp
 [assembly: Xamarin.Forms.Dependency(typeof(Spent.MockDataService))]
 ```
 
-Jump back over to `ExpensesViewModel` and the `GetExpensesAsync` method. Delete the code in the try block, and replace it with the following.
+Vuelve al método `GetExpensesAsync` de `ExpensesViewModel`. Elimina el código del bloque try y reemplázalo por lo siguiente.
 
 ```csharp
 Expenses.Clear();
@@ -128,16 +129,17 @@ foreach (var expense in expenses)
 }
 ```
 
-In the code above, we first clear the `Expenses` collection before using the `DependencyService` to get the expenses. Finally, we add them to our collection for the user interface to updated.
+En el código anterior, primero borramos la colección `Expenses` antes de usar el `DependencyService` para obtener los gastos. Finalmente, los añadimos a nuestra colección para que la interfaz de usuario se actualice.
 
-> **Best Practice**: Remember how `ObservableCollection<T>` fires collection changed events to let our user interface know to update? This means that the user interface is updated for each addition to the collection, which is costly in terms of performance. For best results, use something like `ObservableRangeCollection<T>`, which will only fire the collection changed event one time, resulting in vastly improved performance.
+> **Mejores Prácticas**: ¿Recuerdas cómo `ObservableCollection<T>` lanza eventos de cambios de colección para que nuestra interfaz de usuario sepa que tiene que actualizarse? Esto significa que la interfaz de usuario se actualiza para cada adición a la colección, que es costosa en términos de rendimiento. Para obtener mejores resultados, usa `ObservableRangeCollection <T>`, que sólo disparará la colección que cambió el evento una vez, lo que proporcionará una mejora de rendimiento.
 
-Great! Now we have successfully removed yet another example of tight coupling. Now that we have a more robust and easily-accessible data service, let's implement the logic for adding new expenses.
+¡Genial! Hemos eliminado con éxito otro ejemplo de acoplamiento. Ahora que tenemos un servicio de datos más robusto y fácilmente accesible, implementemos la lógica para agregar nuevos gastos.
 
-##### 2. Add new expense view model.
-Just as we did for the `ExpensesPage`, we will create a view model to handle all logic for our add expense user interface. Right-click the `View Models` folder, and add a new blank C# class named `NewExpenseViewModel`. Just like all other view models, we will subclass `BaseViewModel` to gain the `INotifyPropertyChanged` functionality, as well as our `IsBusy` property.
+##### 2. Agregar nuevo modelo de vista de gastos.
+//TODO
+De igual forma que hiciste con `ExpensesPage`, crea un modelo de vista para administrar toda la lógica de la interfaz de usuario de añadir gastos. Haz clic derecho en la carpeta `ViewModels` y agrega una nueva clase C# en blanco denominada `NewExpenseViewModel`. Al igual que los demás modelos de vista, subclase `BaseViewModel` para obtener la funcionalidad` INotifyPropertyChanged`, así como nuestra propiedad `IsBusy`.
 
-Let's start by adding some public properties to our view model to represent the various fields an expense has.
+Empieza añadiendo algunas propiedades públicas al modelo de vista para representar los diversos campos que tiene un gasto.
 
 ```csharp
 public string Company { get; set; }
@@ -146,7 +148,7 @@ public DateTime DateTime { get; set; }
 public string Amount { get; set; }
 ```
 
-For the receipt, we need to create a traditional property with a backing field so we can call `OnPropertyChanged` when a receipt is attached. We need to do this because our user interface will need to update when a receipt is attached to display the photo.
+Para el recibo, necesitamos crear una propiedad tradicional con un campo de respaldo para que podamos llamar a `OnPropertyChanged` cuando se adjunte un recibo. Tenemos que hacer esto porque nuestra interfaz de usuario tendrá que actualizarse cuando se adjunte un recibo para mostrar la foto.
 
 ```csharp
 string receipt;
@@ -158,6 +160,8 @@ public string Receipt
 ```
 
 Great, now that we have all the backing properties for our user interface, let's create several commands for attaching the receipt and saving expenses. First, let's create a method that will contain the logic for our command named `AttachReceiptAsync`.
+
+Genial, ahora que tenemos todas las propiedades de respaldo para nuestra interfaz de usuario, vamos a crear varios comandos para adjuntar el recibo y guardar los gastos. En primer lugar, vamos a crear un método que contendrá la lógica de nuestro comando llamado `AttachReceiptAsync`.
 
 ```csharp
 using System.Threading.Tasks;
@@ -182,6 +186,8 @@ async Task AttachReceiptAsync()
 
 Next, we need to add the `Command` for our user interface to bind to named `AttachReceiptCommand`. Let's also intialize our command in the constructor of our view model.
 
+A continuación, debemos añadir el `Command` para que nuestra interfaz de usuario se pueda enlazarse con 'AttachReceiptCommand`. También hay que inicializar nuestro comando en el constructor del modelo de vista.
+
 ```csharp
 public Command AttachReceiptCommand { get; set; }
 
@@ -192,11 +198,12 @@ public NewExpenseViewModel()
 }
 ```
 
-Now that the boilerplate code is added for our `AttachReceiptCommand`, let's add some logic to attach a receipt. Users will have the option to attach photos of their receipts to their expenses. To do this, we will take advantage of **[Plugins for Xamarin](https://github.com/xamarin/XamarinComponents)**. Plugins for Xamarin are community built NuGet and Components that add cross-platform functionality or abstracts platform specific functionality to a common API. These are both completely cross-platform and extremely small (i.e., they do 1 or 2 things really well with minimal-to-no dependencies). The Plugin API can be accessed on each platform, however, you will most likely only use the common API in a Portable Class Library or Shared Code project. 
+Ahora que el código se agrega a 'AttachReceiptCommand`, vamos a agregar up poco de lógica para adjuntar un recibo. Los usuarios tendrán la opción de adjuntar fotos de sus recibos a sus gastos. Para ello, aprovecharemos **[Plugins para Xamarin] (https://github.com/xamarin/XamarinComponents)**. Los Plugins para Xamarin son NuGet y Componentes que añaden funcionalidad multiplataforma o abstrae la funcionalidad específica de la plataforma a una API común. Éstos son completamente completamente multiplataforma y muy pequeños (es decir, hacen 1 o 2 cosas realmente bien con dependencias mínimas). Se puede acceder a la API del Plugin en cada plataforma, sin embargo, lo más probable es que solo utilices la API común en un proyecto de tipo PCL o de código compartido.
 
-For Spent, we will be taking advantage of the [Media Plugin for Xamarin and Windows](https://blog.xamarin.com/getting-started-with-the-media-plugin-for-xamarin/) to take and/or select photos from the user's library to attach receipts. Plugins are distributed via NuGet, and the dependency has already been added for you, so let's add our media logic to the `AttachReceiptAsync` method. 
+//TODO
+Para Spent, estaremos aprovechando el [Media Plugin para Xamarin y Windows] (https://blog.xamarin.com/getting-started-with-the-media-plugin-for-xamarin/) para tomar y/o seleccionar fotos de la biblioteca del usuario para adjuntar recibos. Los complementos se distribuyen a través de NuGet, y la dependencia ya ha sido añadida, así que vamos a agregar nuestra lógica de media al método `AttachReceiptAsync`.
 
-When using the Media Plugin for Xamarin, it's important that we initialize the plugin by calling it's `Initialize` method.
+Cuando se utiliza el Media Plugin para Xamarin, es importante que inicialices el complemento llamando a su método `Initialize`.
 
 ```csharp
 using Plugin.Media;
@@ -219,7 +226,7 @@ async Task AttachReceiptAsync()
 }
 ```
 
-It's important to remember that while most mobile phones have cameras, not all do. Our logic must take into account devices where cameras are not available. Lucky for us, the Media Plugin for Xamarin has properties built in to let us know `IsCameraAvailable` and `IsTakePhotoSupported`. If it is available, then we can use the `TakePhotoAsync` method to take a photo; if not, we can use `PickPhotoAsync`, and allow the user to select a photo from their photo library. Finally, we will store the photo's path in the `Receipt` property if it is not null.
+Es importante recordar que mientras que la mayoría de los teléfonos móviles tienen cámaras, no todos la tienen. Nuestra lógica debe tener en cuenta los dispositivos en los que las cámaras no están disponibles. Por suerte para nosotros, el Media Plugin para Xamarin tiene propiedades incorporadas para hacernos saber `IsCameraAvailable` e `IsTakePhotoSupported`. Si está disponible, podemos usar el método `TakePhotoAsync` para sacar una foto; Sino, podemos utilizar `PickPhotoAsync`, y permitir al usuario seleccionar una foto de su biblioteca de fotos. Finalmente, almacenaremos la ruta de la foto en la propiedad `Receipt`si no es nula.
 
 ```csharp
 using Plugin.Media;
@@ -258,9 +265,9 @@ async Task AttachReceiptAsync()
 }
 ```
 
-That's it! In just over ten lines of code, we have pulled platform-specific functionality into our app via Plugins for Xamarin to allow users to take or select photo receipts and attach them to the `Expense`.
+¡Ya está! En poco más de diez líneas de código, hemos extraído la funcionalidad específica de la plataforma en nuestra aplicación a través de Plugins para Xamarin permitiendo a los usuarios sacar o seleccionar recibos de fotos y adjuntarlos a `Expense`.
 
-Our user interface will also have a save button in the navigation bar. To provide functionality for this in our view model, we will create a backing method named `SaveExpenseAsync`.
+Nuestra interfaz de usuario también tendrá un botón de guardar en la barra de navegación. Para proporcionarle funcionalidad a esto en nuestro modelo de vista, crearemos un método de respaldo llamado `SaveExpenseAsync`.
 
 ```csharp
 async Task SaveExpenseAsync()
@@ -280,7 +287,7 @@ async Task SaveExpenseAsync()
 }
 ```
 
-To make this logic accessible from our user interface, let's create a new `Command` named `SaveExpenseCommand` and initialize it in our constructor.
+Para hacer accesible esta lógica desde nuestra interfaz de usuario, vamos a crear un nuevo `Command` llamado `SaveExpenseCommand` e iniciarlizarlo en nuestro constructor.
 
 ```csharp
 public Command SaveExpenseCommand { get; set; }
@@ -296,7 +303,7 @@ public NewExpenseViewModel()
 }
 ```
 
-Time to add the logic to save our expense! Jump back to `SaveExpenseAsync`. In the try block, "new up" a new `Expense` using the properties created earlier in this step. Next, we want to utilize the `MessagingCenter` introduced in Module 1 to send a message to the `ExpensesViewModel` to save the new expense. Because we created a `DependencyService`, we could access our data layer from the `NewExpenseViewModel` without issue - so why send a message back to the `ExpensesViewModel`? By doing this, we can add the new expense directly to the `ObservableCollection<Expense>` that we data bind to so that the user interface automatically updates without requiring interaction from the user (such as a pull-to-refresh). Let's also send a message to our soon-to-be `NewExpensePage` to navigate backwards on the stack.
+¡Es hora de añadir lógica para guardar el gasto! Vuelve a `SaveExpenseAsync`. En el bloque try, "new up" un nuevo `Expense` utilizando las propiedades creadas anteriormente a este paso. A continuación, queremos utilizar el `MessagingCenter` añadido en el Módulo 1 para enviar un mensaje a `ExpensesViewModel` para guardar el nuevo gasto. Ya que creamos un `DependencyService`, podríamos acceder a nuestra capa de datos desde el `NewExpenseViewModel` sin problema - así que ¿por qué enviar un mensaje de vuelta a `ExpensesViewModel`? Si hacemos esto, podemos agregar el nuevo gasto directamente a `ObservableCollection <Expense>` al que los datos se enlazarán para que la interfaz de usuario se actualice automáticamente sin requerir interacción del usuario (como pull-to-refresh). Enviemos también un mensaje a nuestro futuro "NewExpensePage" para retroceder en la navegación.
 
 ```csharp
 async Task SaveExpenseAsync()
@@ -364,7 +371,7 @@ To add a new page, right-click the `Views` folder, and add a new `Forms ContentP
 </ContentPage>
 ```
 
-We will be navigating to this page from our `ExpensesPage`, so we will have a navigation bar at the top of the page. To save items, let's add a button to the navigation bar with the text "Save". We can add a `ToolbarItem` to our `ContentPage.ToolbarItems` property in XAML to achieve this effect.
+Navegaremos a esta página desde `ExpensesPage`, por lo que tendremos una barra de navegación en la parte superior de la página. Para guardar elementos, vamos a agregar un botón a la barra de navegación con el texto "Guardar". Podemos agregar un `ToolbarItem` a nuestra propiedad `ContentPage.ToolbarItems` en XAML para lograr dicho efecto.
 
 ```csharp
 <ContentPage.ToolbarItems>
@@ -372,7 +379,7 @@ We will be navigating to this page from our `ExpensesPage`, so we will have a na
 </ContentPage.ToolbarItems>
 ```
 
-Excellent! Now let's jump back over to the codebehind to configure our `BindingContext` for the view, as well as subscribe to messages. In the constructor of `NewExpensePage`, set the `BindingContext` property to a new `NewExpenseViewModel`. Additionally, override the `OnAppearing` and `OnDisappearing` methods, and add methods for `SubscribeToMessages` and `UnsubscribeToMessages`, just like we did for `ExpensesPage`.
+¡Excelente! Ahora vamos a volver al codebehind para configurar nuestro `BindingContext` para la vista, así como suscribirnos a los mensajes. En el constructor de `NewExpensePage`, establece el valor de la propiedad `BindingContext` a un nuevo `NewExpenseViewModel`. Además, reemplaza los métodos `OnAppearing` y `OnDisappearing`, y añade métodos para `SubscribeToMessages` y `UnsubscribeToMessages`, de igual forma que hicimos para `ExpensesPage`.
 
 ```csharp
 public NewExpensePage()
@@ -410,9 +417,9 @@ void UnsubscribeFromMessages()
 }
 ```
 
-Let's add a new `MessagingCenter` subscription/unsubscription for the "Navigate" message to return us to the `ExpensesPage` after a user saves a new expense.
+Añade un nueva suscripción/baja de `MessagingCenter` para que el mensaje de "Navigate" nos redirija a `ExpensesPage` una vez que el usuario guarde un nuevo gasto.
 
-**Add to `SubscribeToMessages`**
+**Añade a `SubscribeToMessages`**
 ```csharp
 MessagingCenter.Subscribe<NewExpenseViewModel, string>(this, "Navigate", async (obj, s) =>
 {
@@ -423,12 +430,12 @@ MessagingCenter.Subscribe<NewExpenseViewModel, string>(this, "Navigate", async (
 });
 ```
 
-**Add to `UnsubscribeFromMessages`**
+**Añade a `UnsubscribeFromMessages`**
 ```csharp
 MessagingCenter.Unsubscribe<NewExpenseViewModel, string>(this, "Navigate");
 ```
 
-Jump back to our `ExpensesPage`, were we will add a new `ToolbarItem` to allow users to navigate to our `NewExpensePage`.
+Vuelve a `ExpensesPage`, donde añadirás un nuevo `ToolbarItem` para permitir a los usuarios navegar a `NewExpensePage`.
 
 ```csharp
 <ContentPage.ToolbarItems>
@@ -436,7 +443,7 @@ Jump back to our `ExpensesPage`, were we will add a new `ToolbarItem` to allow u
 </ContentPage.ToolbarItems>
 ```
 
-We also need to create a new command in the `ExpensesViewModel` named `AddExpenseCommand`, as well as a backing method named `AddExpenseAsync`. Be sure to initialize the command in the constructor of `ExpensesViewModel`.
+También necesitamos crear un nuevo comando en `ExpensesViewModel` llamado `AddExpenseCommand`, así como un método de respaldo llamado `AddExpenseAsync`. Asegúrate de inicializar el comando en el constructor de `ExpensesViewModel`.
 
 ```csharp
 public Command AddExpenseCommand { get; set; }
@@ -470,14 +477,14 @@ void AddExpense()
 }
 ```
 
-Just as with all other navigation in our app, let's use the `MessagingCenter` to perform navigation.
+Al igual que el resto de la navegación en la aplicación, utilicemos el `MessagingCenter` para realizar la navegación.
 
 **Add to try block in `AddExpense`**
 ```csharp
 MessagingCenter.Send(this, "Navigate", "NewExpensePage");
 ```
 
-Finally, we need to subscribe and unsubscribe to these messages in our `ExpensesPage`.
+Finalmente, tenemos que suscribirnos y darnos de baja de estos mensajes en `ExpensesPage`.
 
 ```csharp
 void SubscribeToMessages()
@@ -501,18 +508,22 @@ MessagingCenter.Unsubscribe<ExpensesViewModel, string>(this, "Navigate");
 }
 ```
 
-Build the app, click "Add", and you should now be able to create new expenses, attach photos, and have the new expenses appear in the main `ListView` on the `ExpensesPage`.
+Compila la aplicación, presiona "Add", y deberías poder crear nuevos gastos, adjuntar fotos y que se muestren los gastos en el `ListView` principal en `ExpensesPage`.
 
  ![](/modules/module-2/images/new-expense-page.png)
 
-##### 4. Style the application.
-We are now done with the functional aspects of our unconnected Spent app. In Module 3-4, we'll take a look at connected Spent to the cloud. For the remainder of this module, we will investigate other enhancements we can make to Spent with Xamarin.Forms features.
+##### 4. Estiliza la aplicación.
+Ahora hemos terminado con los aspectos funcionales de nuestra aplicación Spent. En el Módulo 3-4, echaremos un vistazo a la conexión de Spent a la nube. Durante el resto de este módulo, vamos a investigar otras mejoras que podemos hacer con características de Xamarin.Forms.
 
-Styling is a big part of building any type of application. Individually styling controls can be incredibly painful as your application scales. Imagine that you want all heading labels to be a certain size and color, and have a custom font. Each time you create this label, you will have to not only add definitions for each of these properties, but also our code becomes much more unmaintainable. If we decide to change any of the values for heading labels, we now must make the change throughout the app.
+Dar estilo es una gran parte del desarrollo de cualquier tipo de aplicación. Los controles individuales de estilo pueden ser increíblemente dolorosos a medida que la aplicación escala. Imagina que quieres que todas las etiquetas de encabezado tengan un cierto tamaño y color y que tengan una fuente personalizada. Cada vez que crees esta etiqueta, tendrás que añadir no sólo definiciones para cada una de estas propiedades, sino que también el código será mucho más inasequible. Si decidimos cambiar cualquier valor de las etiquetas de encabezado, deberemos realizar el cambio en toda la aplicación.
 
 The Xamarin.Forms [`ResourceDictionary`](https://developer.xamarin.com/guides/xamarin-forms/xaml/resource-dictionaries/) is a repository for resources that are used by a Xamarin.Forms application. Typical resources that are stored here include styles, control templates, data templates, colors, and converters. By creating a resource in the `ResourceDictionary`, we can increase the maintainability of our code by only having to make the change described above in one place. Depending on the scope of the resource, we can use the `ResourceDictionary` at the control-level, page-level, or application-level.
 
+El [`ResourceDictionary`] (https://developer.xamarin.com/guides/xamarin-forms/xaml/resource-dictionaries/) de Xamarin.Forms es un repositorio de recursos utilizados por una aplicación Xamarin.Forms. Los recursos típicos que se almacenan aquí incluyen estilos, plantillas de control, plantillas de datos, colores y convertidores. Al crear un recurso en el `ResourceDictionary`, podemos aumentar la capacidad de mantenimiento de nuestro código realizando solo el cambio descrito anteriormente en un solo lugar. Dependiendo del alcance del recurso, podemos usar el `ResourceDictionary` a nivel de control, a nivel de página o a nivel de aplicación.
+
 Let's jump over to `App.xaml` and define some resources for our application to use. Within `Application.Resources`, we can create a new `ResourceDictionary` element and add individual keys and values to the dictionary.
+
+Dirigete a `App.xaml` y define algunos recursos a utilizar por la aplicación. Dentro de `Application.Resources`, podemos crear un nuevo elemento `ResourceDictionary` y agregar claves y valores individuales al diccionario.
 
 ```csharp
 <?xml version="1.0" encoding="utf-8"?>
@@ -526,7 +537,7 @@ Let's jump over to `App.xaml` and define some resources for our application to u
 </Application>
 ```
 
-Resources can be retrieved and applied by using the `StaticResource` markup extension. Open `NewExpensePage.xaml` and alter the XAML markup to use the `MediumGrayTextColor` attribute rather than the raw values.
+Los recursos se pueden obtener y aplicar utilizando la extensión de marcado `StaticResource`. Abre `NewExpensePage.xaml` y modifica el XAML para utilizar el atributo `MediumGrayTextColor` en lugar de los valores sin procesar.
 
 ```csharp
 <?xml version="1.0" encoding="UTF-8"?>
@@ -553,9 +564,9 @@ Resources can be retrieved and applied by using the `StaticResource` markup exte
 </ContentPage>
 ``` 
 
-Resources will be attempted to be retrieved first at the control-level, then the page-level, and finally the application-level. Thus, it's important that you keep the size of your `ResourceDictionary` as small as possible.
+Se intentará recuperar los recursos obtenidos a nivel de control, luego a nivel de página y finalmente a nivel de aplicación. Por lo tanto, es importante que mantengas el tamaño de tu `ResourceDictionary` lo más pequeño posible.
 
-Open up `ExpenseDetailPage` and update the XAML to use our application `ResourceDictionary`.
+Abre `ExpenseDetailPage` y actualiza el XAML para usar el `ResourceDictionary`.
 
 ```csharp
 <?xml version="1.0" encoding="UTF-8"?>
@@ -578,11 +589,11 @@ Open up `ExpenseDetailPage` and update the XAML to use our application `Resource
 </ContentPage>
 ```
 
-Run the app, and you will see that we continue to use the same theming as before, this time with the more maintainable Xamarin.Forms `ResourceDictionary`.
+Ejecuta la aplicación, y verás que se sigue utilizando el mismo tema que antes, pero ahora con Xamarin.Forms `ResourceDictionary`, que es más fácil de mantener.
 
-What if we want to enforce a consistent look across an app (or even multiple applications). Teams working on a family of apps should aim for consistent branding, and Xamarin.Forms **[Styles](https://developer.xamarin.com/guides/xamarin-forms/user-interface/styles/)** can help make that happen. Styles are defined in the `ResourceDictionary` and referenced from XAML. Instead of having to define a `TextColor`, `TextSize`, and `Font`, we can apply a single `Style` for the control, rather than continuing to reference all three properties. Implicit references can be applied to a particular control or page, and don't have to be explictly set as the `Style` for the view. This is great where you have a look that must be consistent for all instances of a control.
+¿Qué pasa si queremos reforzar una apariencia consistente en una aplicación (o incluso en varias aplicaciones). Los equipos que trabajan en una familia de aplicaciones deben apuntar a una marca coherente, y Xamarin.Forms ** [Styles] (https://developer.xamarin.com/guides/xamarin-forms/user-interface/styles/) ** ayuda a que eso suceda. Los estilos se definen en el `ResourceDictionary` y se referencian desde XAML. En lugar de tener que definir un `TextColor`, `TextSize` y `Font`, podemos aplicar un solo `Style` para el control, en lugar de seguir haciendo referencia a las tres propiedades. Pueden aplicarse referencias implícitas a un control o página en particular y no tienen que establecerse explícitamente como "Style" para la vista. Esto es genial cuando tienes un aspecto que debe ser consistente en todas las instancias de un control.
 
-In Spent, let's create an implicit style to apply to our `NavigationPage` that alters the `BarBackgroundColor` and `BarTextColor` of the navigation bar. Open up `App.xaml`, and add the following to the `ResourceDictionary`.
+En Spent, vamos a crear un estilo implícito para aplicarlo a nuestro `NavigationPage` que altera el `BarBackgroundColor` y `BarTextColor` de la barra de navegación. Abre `App.xaml` y añade lo siguiente al` ResourceDictionary`.
 
 ```csharp
 <Style TargetType="NavigationPage">
@@ -592,6 +603,7 @@ In Spent, let's create an implicit style to apply to our `NavigationPage` that a
 ```
 
 Run the app, and you will now notice a beautiful navigation bar on our `ExpensesPage` that was implicitly applied with Xamarin.Forms styles.
+Ejecuta la aplicación, y ahora verás una hermosa barra de navegación en tu `ExpensesPage` que se aplicó implícitamente con los estilos Xamarin.Forms.
 
  ![](/modules/module-2/images/styles.png)
 
@@ -689,12 +701,12 @@ Run the app, and you will notice a beautiful `FloatingActionButton` that, when c
 
 > Currently in prerelease is a feature that allows us to add iOS and Android controls directly to our XAML, and even perform data binding and commanding with no additional configuration. 
 
-##### 6. Improve application performance.
-Performance is a large part of developing mobile apps. Performance is certainly important in building desktop applications as well, but issues with performance are definitely much more noticable on mobile devices. Couple this with many budget Android (and now iOS) devices with cheaper processors, and performance is suddenly very important.
+##### 6. Mejora del rendimiento de la aplicación
+El rendimiento es una parte importante del desarrollo de aplicaciones móviles. El rendimiento es sin duda importante en la construcción de aplicaciones de escritorio, pero los problemas de rendimiento se notan más en los dispositivos móviles. Sumale a esto dispositivos Android económicos (y ahora iOS) con procesadores más baratos, y el rendimiento de repente es muy importante.
 
-Xamarin.Forms has many features to help ensure that your application performs well, in addition to the many other platform-specific performance tweaks you can make to build a performant mobile app. There are two key areas where we can gain large wins though - layouts and lists. By optimizing these two areas, we can see signficant performance boosts in our app.
+Xamarin.Forms tiene muchas características que ayudan a asegurar que la aplicación funcione bien, además de mucho otros ajustes de rendimiento específicos de cada plataforma que puedes aprovechar para crear una aplicación móvil con alto rendimiento. Hay dos áreas clave en las que podemos tomar ventaja en nuestro desarrollo - diseños y listas. Al optimizar estas dos áreas, podemos ver un aumento significativo de rendimiento en nuestra aplicación.
 
-`ListView`s often represent a large portion of mobile apps. By optimizing these, we can see massive performance boosts. One key area is **cell recycling**. Instead of creating potentially hundreds or thousands of cells for every row in a `ListView`, what if we reused a core set of cells (the number of visible cells on the screen plus a few more on top and bottom) to improve performance? We can enable this feature in Xamarin.Forms by simply updating our `ListView.CachingStrategy` to `RecycleElement`. Update the `ListView` in the `ExpensesPage` to use cell recycling.
+Los `ListView`s a menudo representan una gran parte de las aplicaciones móviles. Al optimizarlos, podemos ver aumentos de rendimiento masivos. Un área clave es **reciclaje de células**. En lugar de crear potencialmente cientos o miles de celdas para cada fila en un `ListView`, ¿qué pasaría si reutilizasemos un núcleo de células (el número de celdas visibles en la pantalla y algunos más en la parte superior e inferior) para mejorar el rendimiento? Podemos activar esta función en Xamarin.Forms actualizando nuestro `ListView.CachingStrategy` a `RecycleElement`. Actualiza el `ListView` en el `ExpensesPage` para utilizar el reciclaje de células.
 
 ```csharp
 <ListView ItemsSource="{Binding Expenses}"
@@ -711,12 +723,13 @@ Xamarin.Forms has many features to help ensure that your application performs we
 </ListView>
 ```
 
-Another area for optimization is layouts. Currently, XAML is parsed and inflated at runtime. Xamarin.Forms allows us to use the **XAML compiler** to precompile this XAML for signficant performance boosts, and also gaining functionality like compile-time error checking for XAML.
+Otra área de optimización son los diseños. En la actualidad, XAML se analiza e infla en tiempo de ejecución. Xamarin.Forms nos permite usar el **compilador XAML** para precompilar este XAML y aumentar significativamente el rendimiento, además de también ganar funcionalidad como la comprobación de errores en tiempo de compilación para XAML.
 
-We can enable this on a per-page or per-application level by simply applying the `XamlCompilation` attribute and setting the `XamlCompilationOptions` to `Compile`. There's not much reason not to use the XAMLC feature in Xamarin.Forms, so let's update `App.xaml.cs` to use the XAML compiler throughout our application.
+Podemos habilitar esto a nivel de página o de aplicación utilizando el atributo `XamlCompilation` y definiendo `XamlCompilationOptions` a `Compile`. No hay motivo por el cual no utilizar la característica XAMLC en Xamarin.Forms, así que vamos a actualizar `App.xaml.cs` para usar el compilador XAML en toda nuestra aplicación.
+
 
 ```csharp
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 ```
 
-Boom! We've now optimized our Xamarin.Forms expenses app, Spent, to use the latest-and-greatest in Xamarin.Forms to build a performant mobile app with native functionality. In Modules 3-4, we will take a look at connecting Spent to the cloud so users can access their expenses from any device.
+¡Boom! Hemos optimizado nuestra aplicación de gastos de Xamarin.Forms, Spent, para utilizar lo último y mejor de Xamarin.Forms para crear una aplicación móvil con funcionalidad nativa. En los Módulos 3-4, veremos cómo conectar a Spent a la nube para que los usuarios puedan acceder a sus gastos desde cualquier dispositivo.

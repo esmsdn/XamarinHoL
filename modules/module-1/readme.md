@@ -1,65 +1,64 @@
-# Module 1: Building Your First Xamarin.Forms App
-**Objective**: Learn the basics of building native mobile apps for iOS, Android, and Windows with Xamarin.Forms. Build a  master-detail application in XAML that uses the Model-View-ViewModel (MVVM) design pattern.
+# Módulo 1: Construyendo tu primera aplicación Xamarin.Forms
+**Objetivo**: Aprender las bases del desarrollo de aplicaciones móviles nativas para iOS, Android y Windows con Xamarin.Forms. Construye una aplicación de tipo "master-detail" en XAML que utiliza el patrón Modelo-Vista-VistaModelo (MVVM).
 
-##### Prerequisites
-Ensure you have the following software installed:
+##### Prerequisitos
+Asegurate que tienes instalado el siguiente software:
 
-* Visual Studio 2015 Community Edition (or higher) or Xamarin Studio Community Edition (or higher)
+* Visual Studio 2015 Community Edition (o superior) o Xamarin Studio Community Edition (o superior)
 * [Xamarin](xamarin.com/download)
 
-Download the starter code for this module to begin.
+Descarga el código inicial de este módulo para empezar.
 
-### Getting Started
-In this workshop, you will learn how to build connected, cross-platform apps for iOS, Android, and Windows with Xamarin.Forms and Microsoft Azure. This workshop takes you from start-to-finish in building an app for tracking personal expenses, including storage of receipts.
+### Empezando
+En este taller, aprenderas a desarrollar aplicaciones multiplataformas conectadas para iOS, Android y Windows con Xamarin.Forms y Microsoft Azure. Este taller te guiará de inicio a fin en el desarrollo de una aplicación qué hará un seguimiento de gastos personales, incluyendo el almacenamiento de recibos.
 
-This solution contains 4 projects:
+Esta solución contiene 4 proyectos:
 
-* Spent - Shared Project that contains all code that is sharable across multiple platforms (models, view models, views, service logic, etc.).
-* Spent.Droid - Xamarin.Android application
-* Spent.iOS - Xamarin.iOS application
-* Spent.Windows - Windows 10 UWP application (can only be run from Visual Studio 2015 on Windows 10).
+* Spent - Proyecto Compartido que contiene todo el código compartible a través de las multiples plataformas (modelos, view models, vistas, lógica de servicio, etc.).
+* Spent.Droid - Aplicación Xamarin.Android 
+* Spent.iOS - Aplicación Xamarin.iOS
+* Spent.Windows - Aplicación Windows 10 UWP (solo puede ser ejecutada desde Visual Studio 2015 en Windows 10).
 
  ![](/modules/module-1/images/solution-explorer.png)
 
-NuGet is a package manager for .NET that helps us take advantage of existing libraries like JSON.NET to share more code and build apps even quicker. All projects already have NuGet dependencies added, so there is no need to install additional NuGets during the workshop. To download the NuGets already added to the projects by restoring them.
+NuGet es un gestor de paquetes para .NET que nos ayuda a aprovechar las ventajas que nos ofrecen las librerías existentes como JSON.NET para compartir más código y desarrollar aplicaciones de manera más rápida. Todos los proyectos ya contienen las dependencias NuGet, por tanto no existe necesidad de instalar paquetes NuGet adicionales a lo largo del taller. Para descargar los Nuggets asociados a los proyectos hay que restaurarlos.
 
-To do this, right-click on the solution name in the **Solution Explorer** and click **Restore NuGet Packages**.
+Para hacer esto, haz click derecho sobre el nombre de la solución en el **Explorador de Soluciones** y elige **Restaurar Paquetes NuGet**.
 
  ![](/modules/module-1/images/restore-nugets.png)
 
-### Module Instructions
-Let's get started building our expenses mobile app - Spent!
+### Instrucciones del módulo
+Comenzamos a construir nuestra aplicacion de gastos - Spent!
 
-##### 1. Run the starter code.
-To begin, open up the starter code in either Visual Studio or Xamarin Studio. Debug the application for either iOS, Android, or Universal Windows Platform (UWP).
+##### 1. Ejecuta el código inicial.
+Para empezar, abre el código inicial en Visual Studio o Xamarin Studio. Depura la aplicación para iOS, Android o Universal Windows Platform (UWP).
 
-> Note that if you are using Visual Studio on Windows, you will need to have to be [connected to a Mac](https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/) to build and debug the iOS solution. If you are running Xamarin Studio on Mac, the Universal Windows Platform project cannot be built.
+> Nota: Si estás utilizando Visual Studio en Windows, tendrás que estar [conectado a un Mac](https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/) para crear y depurar la solución iOS. Si estás ejecutando Xamarin Studio en Mac, no podrás crear el proyecto de Universal Windows Platform. 
 
-When the app deploys to the simulator or emulator, you will see a single label that says "Welcome to Xamarin.Forms!".
+Cuando la aplicación se despliega en el simulador o emulador, verás una sola etiqueta que dice "Welcome to Xamarin.Forms!".
 
  ![](/modules/module-1/images/welcome-to-xamarin-forms.png)
 
-Let's investigate the key pieces of a Xamarin.Forms application. Expand the `Spent` project to see several empty folders and a few files. Traditional Xamarin apps allow us to share between 70-90% of code, but all user interface logic resides in the individual platform projects. For Xamarin.Forms apps, we can still share all the code we did in a traditional Xamarin app, as well as the user interface logic. All shared code is either written in a [Shared Project](https://developer.xamarin.com/guides/cross-platform/application_fundamentals/shared_projects/) or [Portable Class Library (PCL)](https://developer.xamarin.com/guides/cross-platform/application_fundamentals/pcl/).
+Investiguemos las piezas clave de una aplicación Xamarin.Forms. Expande el proyecto `Spent` para ver varias carpetas vacías y algunos archivos. Las aplicaciones Xamarin tradicionales nos permiten compartir entre el 70-90% del código, pero toda la lógica de la interfaz de usuario reside en los proyectos individuales de la plataforma. Para aplicaciones Xamarin.Forms, aun podemos compartir todo el código que desarrollamos en una aplicación Xamarin tradicional, y también la lógica de la interfaz de usuario. Todo el código compartido está desarrollado en un [Proyecto Compartido] (https://developer.xamarin.com/guides/cross-platform/application_fundamentals/shared_projects/) o [Portable Class Library (PCL)](https://developer.xamarin.com/guides/cross-platform/application_fundamentals/pcl/).
 
-The `Application` class is the main entry point for Xamarin.Forms applications. This class selects the main page of the application and handles application lifecycle logic, such as `OnStart`, `OnSleep`, and `OnResume`.
+La clase `Application` es el punto de entrada principal de las aplicaciones Xamarin.Forms. Esta clase selecciona la página principal de la aplicación y administra la lógica del ciclo de vida de la aplicación, como `OnStart`,` OnSleep` y `OnResume`.
 
-It's natural to ask why we still have platform-specific projects if all code is shared. This is because all Xamarin.Forms apps _are_ native apps, and we still have the ability to drop down into platform-specific code to access 100% of the underlying native APIs. If you jump to the `Spent.Droid` project and open `MainActivity`, you will see two lines that initialize the Xamarin.Forms library and load up a new Xamarin.Forms application:
+Es natural preguntarse por qué todavía tenemos proyectos específicos de cada plataforma si se comparte todo el código. Esto se debe a que todas las aplicaciones de Xamarin.Forms _son_ aplicaciones nativas, y todavía tenemos la capacidad de acceder al código específico de la plataforma para acceder al 100% de las API nativas subyacentes. Si entras al proyecto `Spent.Droid` y abres` MainActivity`, verás dos líneas que inicializarán la librería de Xamarin.Forms y cargarán una nueva aplicación Xamarin.Forms:
 
 ``` csharp
 Xamarin.Forms.Forms.Init(this, bundle);
 LoadApplication(new App());
 ```
+Dentro de una aplicación existen una serie de pantallas, o ** [Páginas] (https://developer.xamarin.com/guides/xamarin-forms/controls/pages/) **. Existen siete tipos diferentes de páginas en Xamarin.Forms, desde páginas para mostrar contenido (`ContentPage`) hasta páginas que gestionan la navegación (` TabbedPage`, `NavigationPage`, etc.). Las páginas definen una interfaz de usuario en XAML o C #. Si defines la lógica de la interfaz de usuario en XAML, también tendrás un archivo de codebehind asociado (llamado `.xaml.cs`) para la lógica de esa página. `MainPage` en el proyecto` Spent` es un ejemplo de una página.
 
-Within an application are a series of screens, or **[Pages](https://developer.xamarin.com/guides/xamarin-forms/controls/pages/)**. There are seven different types of pages in Xamarin.Forms, ranging from pages for displaying content (`ContentPage`) to pages that manage navigation (`TabbedPage`, `NavigationPage`, etc.). Pages define a user interface either in XAML or C#. If you define your user interface logic in XAML, you will also have an assicated codebehind file (aptly-named `.xaml.cs`) for the logic for that page. `MainPage` in the `Spent` project is an example of a page. 
+Dentro de una página, podemos usar **[Layouts] (https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/)** para que Xamarin.Forms sepa cómo mostrar controles individuales dentro de la página. Existen dos tipos principales: diseños gestionados y no gestionados. En general, vamos a optar por diseños gestionados, ya que inteligentemente "administran" el diseño de nuestros controles, sin importar el sistema operativo o dispositivo en el que se ejecuta la aplicación.
 
-Within a page, we can use **[Layouts](https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/)** to let Xamarin.Forms know how to display individual controls within the page. There are two main types: managed and unmanaged layouts. Generally, we will opt for managed layouts, as they smartly "manage" the layout of our controls, no matter what OS or device the app is running on.
+##### 3. Agrega un view model base.
+Ahora que hemos visto una introducción básica a Xamarin.Forms, vamos a empezar a construir nuestra aplicación! Xamarin.Forms tiene soporte incorporado para el patrón de diseño Model-ViewModel-View (MVVM) que es común en el desarrollo de aplicaciones Windows. Esto nos ayuda a separar nuestra lógica de interfaz de usuario de nuestra lógica de negocio. La ** Vista ** contiene toda la lógica de la interfaz de usuario (o lo que el usuario ve cuando usa tu aplicación). ** ViewModel ** es una abstracción de la vista que contiene la lógica que impulsa la interacción del usuario con nuestra aplicación. Un ejemplo para una página con una lista de elementos puede ser lógica para descargar JSON desde la web, deserializarla y ponerla en una lista para que nuestra interfaz de usuario se muestre. ** Modelo ** es un modelo de dominio o una capa de acceso a datos.
 
-##### 3. Add a base view model.
-Now that we have a basic introduction to Xamarin.Forms, let's begin building our app! Xamarin.Forms has built-in support for the Model-ViewModel-View (MVVM) design pattern that's common in Windows development. This helps us to separate our user interface logic from our business logic. The **View** contains all user interface logic (or what the user sees when they use your application). The **ViewModel** is an abstraction of the view that contains the logic that drives user interaction with our application. An example for a page with a list of items may be logic to download JSON from the web, deserialize it, and put it into a list for our user interface to display. The **Model** is a domain model or a data-access layer.
+Para comenzar con MVVM, necesitamos utilizar el concepto de **[vinculación de datos] (https://developer.xamarin.com/guides/xamarin-forms/xaml/xaml-basics/data_binding_basics/)**. La vinculación de datos es el flujo de datos entre nuestra vista y el modelo de vista, como cuando un usuario tira de la actualización para cargar nuevos datos o los escribe en un cuadro de texto. Nuestra interfaz de usuario debe ser alertada cuando algo cambie en nuestro modelo de vista. Para ello, implementaremos la interfaz `INotifyPropertyChanged`. Debido a que este comportamiento es algo que queremos tener en todos nuestros modelos de vista para esta aplicación, vamos a empezar por agregar un nuevo modelo de vista base que podemos reutilizar.
 
-To get started with MVVM, we need to use the concept of **[data binding](https://developer.xamarin.com/guides/xamarin-forms/xaml/xaml-basics/data_binding_basics/)**. Data binding is the flow of data between our view and view model, such as when a user pulls-to-refresh to load new data, or types into a textbox. Our user interface should be alerted when anything changes in our view model. To do this, we will implement the `INotifyPropertyChanged` interface. Because this behavior is something we will want to have in all of our view models for this app, let's start by adding a new base view model that we can reuse.
-
-Right-click the `View Models` folder, select `Add -> New File`, select an empty C# class, and name it `BaseViewModel`. Bring in the `System.ComponentModel` namespace, and implement the `INotifyPropertyChanged` interface.
+Haga clic con el botón derecho del ratón en la carpeta `Ver modelos`, seleccione` Añadir -> Nuevo archivo`, seleccione una clase C # vacía, y llámela `BaseViewModel`. Introduzca el espacio de nombres `System.ComponentModel` e implemente la interfaz` INotifyPropertyChanged`.
 
 ```csharp
 using System;
@@ -78,7 +77,7 @@ namespace Spent
 }
 ```
 
-Next, let's add a method named `OnPropertyChanged` that will raise the `PropertyChanged` event. Whenever a property changes in our view model that needs to be updated in the view, we will call this method.
+A continuación, vamos a agregar un método llamado `OnPropertyChanged` que activará el evento `PropertyChanged`. Cada vez que una propiedad cambie en nuestro modelo de vista que necesita ser actualizada en la vista, llamaremos a este método.
 
 **C# 6 (Visual Studio 2015 or Xamarin Studio on Mac)**
 ```csharp
@@ -101,9 +100,10 @@ public void OnPropertyChanged([CallerMemberName] string name = null)
 }
 ```
 
-Now, we can call `OnPropertyChanged` whenever a property updates and our user interface will be updated.
 
-We also want to make sure that we aren't duplicating effort in our view models. If a user pulls-to-refresh four times, we should only make one request to update the data (assuming the other three happen before the first returns). To ensure that we aren't duplicating effort, let's add an `IsBusy` property that we will set to `true` when work begins and `false` when work ends.
+Ahora, podemos llamar a `OnPropertyChanged` siempre que una propiedad se actualice y nuestra interfaz de usuario se actualizará.
+
+También queremos asegurarnos de que no estamos duplicando el esfuerzo en nuestros modelos de vista. Si un usuario refresca cuatro veces, sólo debemos realizar una solicitud para actualizar los datos (suponiendo que las otras tres se produzcan antes de que se devuelvan los primeros datos). Para asegurarnos de que no estamos duplicando el esfuerzo, agreguemos una propiedad `IsBusy` que estableceremos en` true` cuando comience el trabajo y `false` cuando termine el trabajo.
 
 ```csharp
 private bool isBusy;
@@ -121,9 +121,9 @@ public bool IsBusy
 Awesome! We've now finished our `BaseViewModel` that we can reuse in all future view models.
 
 ##### 3. Add expenses model.
-Spent's objective is to help users track their expenses. Our main domain object is an expense, so let's add a new `Expense` model for storing information about a particular expense. Right-click the `Models` folder, click `Add -> New File`, select an empty C# class, and name it `Expense`.
+El objetivo de Spent es ayudar a los usuarios a controlar sus gastos. Nuestro principal objeto de dominio es un gasto, por lo que vamos a añadir un nuevo modelo `Expense` para almacenar información sobre un gasto particular. Haz clic con el botón derecho del ratón en la carpeta `Modelos`, haz clic en `Agregar -> Nuevo archivo`, selecciona una clase C # vacía y llámala `Expense`.
 
-Let's give our `Expense` model a few properties that we would expect a particular expense to have.
+Vamos a darle a nuestro modelo `Expense` algunas propiedades que esperamos que tenga un gasto particular.
 
 ```csharp
 
@@ -140,16 +140,14 @@ namespace Spent
 }
 ```
 
-This will keep track of the company, description, purchase amount, purchase time, as well as a string that represents a path to our receipt in the phone's local storage.
-
 ##### 4. Add a expenses view model.
-Spent is going to visualize a list of expenses that the user has incurred. Let's create a view model for our first screen! Create a new C# class in the `View Models` folder named `ExpensesViewModel`, and subclass `BaseViewModel`.
+Spent va a visualizar una lista de los gastos que el usuario ha incurrido. ¡Vamos a crear un modelo de vista para nuestra pantalla inicial! Crea una nueva clase C# en la carpeta `View Models` que se llame `ExpensesViewModel`, y una subclase `BaseViewModel`.
 
-There are many different ways to represent a list of items in .NET, but we will be using a special type named `ObservableCollection<T>`. This is a generic list type that tracks changes to the collection (unlike a regular `List<T>`). This is especially important in MVVM, as we want our user interface to update when this collection updates. Say a user pulls-to-refresh for more data and some new expenses are added; we want to ensure that the user interface updates when new items are added to the collection. By using `ObservableCollection<T>`, we get this behavior for free.
+Hay muchas formas de representar una lista de elementos en .NET, pero usaremos un tipo especial llamado `ObservableCollection <T>`. Este es un tipo de lista genérica que rastrea los cambios a la colección (a diferencia de `List<T>`). Esto es especialmente importante en MVVM, ya que queremos que nuestra interfaz de usuario se actualice cuando se actualice esta colección. Digamos que un usuario refresca para obtener más datos y se agregan nuevos gastos; queremos asegurarnos que la interfaz de usuario se actualiza cuando se agregan nuevos elementos a la colección. Utilizando `ObservableCollection <T>`, obtendremos este comportamiento.
 
-Add new collection to the class for storing our expenses and initialize it in the constructor.
+Agrega una nueva colección a la clase para almacenar nuestros gastos e inicialízala en el constructor.
 
-> **Note**: Developers using Visual Studio may notice that namespaces are typed according the ProjectName.FolderName heuristic. Spent may require you to bring in additional namespaces due to this. For example, when you reference the `Expense` model in `ExpensesViewModel`, you may have to add an additional using for `Spent.Models`. 
+>**Nota**: Los desarrolladores que utilizan Visual Studio pueden notar que los namespaces se escriben según la heurística de ProjectName.FolderName. Spent puede requerir que agruegue mas namespaces debido a esto. Por ejemplo, cuando hace referencia al modelo `Expense` en` ExpensesViewModel`, puede que tengas que agregar un using adicional para `Spent.Models`.
 
 ```csharp
 using System;
@@ -168,8 +166,8 @@ namespace Spent
 	}
 }
 ```
+Ahora que tenemos una colección para almacenar los gastos de nuestros usuarios, vamos a añadir un método para obtener los gastos del usuario.
 
-Now that we have a collection for storing our user's expenses, let's add a method for fetching the user's expenses.
 
 ```csharp
 using System.Threading.Tasks;
@@ -197,9 +195,9 @@ async Task GetExpensesAsync()
 }
 ```
 
-The `GetExpensesAsync` method above is a great example of boilerplate for all view model methods. First, we check if `IsBusy` is `true` (in which case we don't need to repeat the operation). If it is not, set `IsBusy` to `true`, then execute the logic for our method. If there are any issues, report that exception to the user via the `MessengingCenter` (which we will cover later in this module). Finally, make sure that `IsBusy` is set to `false` again so you can continue new operations in the view model.
+El método `GetExpensesAsync` es un gran ejemplo de boilerplate para todos los métodos del modelo de vista. Primero, comprobamos si `IsBusy` es `true` (en cuyo caso no necesitamos repetir la operación). Si no es así, establece `IsBusy` en `true` y después ejecuta la lógica de nuestro método. Si hay algún problema, reporta esa excepción al usuario a través del `MessengingCenter` (que cubriremos más adelante en este módulo). Por último, asegúrate que `IsBusy` está configurado como ` false` de nuevo para que pueda continuar con nuevas operaciones en el modelo de vista.
 
-Let's add some mock user data to our method within the `try` block of `GetExpensesAsync`.
+Vamos a añadir algunos datos de usuario simulados a nuestro método dentro del bloque `try` de `GetExpensesAsync`.
 
 ```csharp
 Expenses.Clear();
@@ -210,29 +208,29 @@ Expenses.Add(new Expense { Company = "Amazon", Description = "Case to protect my
 
 Let's call `GetExpensesAsync` in the constructor to ensure that data is added to our `Expenses` property.
 
-Awesome! Now we have data loading up in our view model. But what if the user wants to initiate a refresh? Right now, the only way to load more data is to restart the application, because the only place we are loading up expenses is in the constructor of the view model. If data binding is the flow of data between view and view model, **Commanding** is the flow of events. Let's add a new `Command` that we can call from our user interface logic to refresh the data.
+Genial! Ahora tenemos datos cargándose en nuestro modelo de vista. Pero ¿y si el usuario quiere actualizar la vista? En este momento, la única forma de cargar más datos es reiniciar la aplicación, ya que el único lugar en el que cargamos los gastos está en el constructor del modelo de vista. Si el enlace de datos es el flujo de datos entre el modelo de vista y de vista, **Los Commandos** son el flujo de eventos. Añadamos un nuevo `Command` que podemos llamar desde nuestra lógica de interfaz de usuario para actualizar los datos.
 
 ```csharp
 public Command GetExpensesCommand { get; set; }
 ```
 
-Let's initialize the command in our constructor.
+Vamos a inicializar el comando en nuestro constructor.
 
 ```csharp
 GetExpensesCommand = new Command(
     async () => await GetExpensesAsync());
 ```
 
-We now have a completed `ExpensesViewModel` that loads up a list of `Expenses` and also allows for the user to refresh the list by calling our `GetExpensesCommand`. Let's build our user interface!
+Ahora tenemos un `ExpensesViewModel` completo que carga una lista de `Expenses` y también permite al usuario actualizar la lista llamando a nuestro `GetExpensesCommand`. Vamos a construir nuestra interfaz de usuario!
 
-##### 4. Add expenses page.
-User interfaces in Xamarin.Forms are built by using C# or XAML markup. While there are benefits and drawbacks to each approach, XAML helps us to best implement the MVVM pattern and maintain a separation of our view model and view logic. It also helps in visualizing the visual tree that can be a bit harder to do when defining our user interfaces in C#.
+##### 4. Agregar página de gastos.
+Las interfaces de usuario en Xamarin.Forms se construyen utilizando C# o XAML. Aunque hay ventajas e inconvenientes para cada enfoque, XAML nos ayuda a implementar mejor el patrón MVVM y mantener una separación de nuestro modelo de vista y lógica de vista. También ayuda en la visualización del árbol visual que puede ser un poco más difícil de hacer al definir nuestras interfaces de usuario en C#.
 
-Let's add a page to display our expenses. Right-click the `Views` folder, click `Add -> New File`, add a `Forms -> Forms ContentPage Xaml` if using Xamarin Studio or a `Cross-Platform -> Forms Xaml Page` if using Visual Studio, and name it `ExpensesPage`. Two files will be added: `ExpensesPage.xaml` for defining our user interface, and `ExpensesPage.xaml.cs` (our "codebehind") for hooking up our view to our view model. 
+Vamos a agregar una página para mostrar nuestros gastos. Haz clic con el botón derecho sobre la carpeta `Views`, haz clic sobre `Add -> New File`, añade `Forms -> Forms ContentPage Xaml` si utilizas Xamarin Studio o `Cross-Platform -> Forms Xaml Page` si utilizas Visual Studio llámalo `ExpensesPage`. Se añadirán dos archivos: `ExpensesPage.xaml` para definir nuestra interfaz de usuario y` ExpensesPage.xaml.cs` (nuestro "codebehind") para conectar nuestra vista a nuestro modelo de vista.
 
-Because we are displaying a list of items, the control that makes the most sense here is the [`ListView`](https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/) control. Add a `ListView` between the `ContentPage.Content` elements in XAML.
+Debido a que estamos mostrando una lista de elementos, el control que tiene más sentido aquí es el control [`ListView`] (https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/). Añade un `ListView` entre los elementos` ContentPage.Content` en XAML.
 
-```csharp
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Spent.ExpensesPage">
 	<ContentPage.Content>
@@ -243,17 +241,17 @@ Because we are displaying a list of items, the control that makes the most sense
 </ContentPage>
 ```
 
-Next, let's configure our `ListView` to use the `ObservableCollection<Expense>` we defined in our `ExpensesViewModel`. To do this, we need to define the `ItemsSource` property of the `ListView`.
+A continuación, vamos a configurar nuestro `ListView` para usar el `ObservableCollection<Expense>` que definimos en nuestro `ExpensesViewModel`. Para ello, necesitamos definir la propiedad `ItemsSource` del `ListView`.
 
-```csharp
+```xml
 <ListView ItemsSource="{Binding Expenses}">
 
 </ListView>
 ```
 
-This means that all data displayed in the `ListView` is "bound" to the `Expenses` object in our view model. Now that our `ListView` knows what data to display, we need to tell it how to display individual `Expenses`. We can do this by defining the `ListView.ItemTemplate` property.
+Esto significa que todos los datos mostrados en el `ListView` están "enlazados" al objeto `Expenses` en nuestro modelo de vista. Ahora que nuestro `ListView` sabe qué datos mostrar, necesitamos decirle cómo mostrar los `Expenses` individuales. Podemos hacerlo definiendo la propiedad `ListView.ItemTemplate`.
 
-```csharp
+```xml
 <ListView ItemsSource="{Binding Expenses}">
 	<ListView.ItemTemplate>
 		<DataTemplate>
@@ -263,7 +261,7 @@ This means that all data displayed in the `ListView` is "bound" to the `Expenses
 </ListView>
 ```
 
-The code above is boilerplate code for defining individual cells within a `ListView`. Xamarin.Forms comes with several [prebuilt cells](https://developer.xamarin.com/guides/xamarin-forms/controls/cells/) for you to take advantage of (such as `TextCell`, `ImageCell`, and `SwitchCell`), but you can also build your own. Let's take advantage of the prebuilt `TextCell` to display our `Expense` data.
+El código anterior sirve para definir las celdas individuales dentro de un `ListView`. Xamarin.Forms viene con varias [celdas pre-construidas] (https://developer.xamarin.com/guides/xamarin-forms/controls/cells/) para que puedas aprovecharlas (`TextCell`, `ImageCell` y `SwitchCell`), pero también puedes crear tus propias celdas. Aprovechemos el `TextCell`preconfigurado para mostrar nuestros datos de `Expense`.
 
 ```csharp
 <ListView ItemsSource="{Binding Expenses}">
@@ -275,7 +273,8 @@ The code above is boilerplate code for defining individual cells within a `ListV
 </ListView>
 ```
 
-This defines a `ListView` populated by data from the `Expenses` object. Each cell is an individual `Expense`, so we can data bind directly to the properties of that expense (`Company`, `Description`, `Amount`, etc.). But this begs an important question - how does the view know what objects to bind to? To let our view know where objects being data bound to can be found, we need to set the `BindingContext` for the page. The `BindingContext` is where Xamarin.Forms will look for objects being data bound from the user interface. To configure this, all we need to do is go to `ExpensesPage.xaml.cs` and add the following line to our constructor.
+Esto define un `ListView` relleno de datos del objeto `Expenses`. Cada celda es un "gasto" individual, por lo que podemos enlazar datos directamente a las propiedades de ese gasto (`Empresa`,` Descripción`, `Cantidad`, etc.). Pero esto plantea una pregunta importante - ¿cómo sabe la vista a qué objetos enlazarse? Para que nuestra vista sepa dónde se pueden encontrar los objetos vinculados, necesitamos establecer el `BindingContext` para la página. El `BindingContext` es donde Xamarin.Forms buscará los objetos que están enlazados desde la interfaz de usuario. Para configurar esto, todo lo que necesitamos hacer es ir a `ExpensesPage.xaml.cs` y agregar la siguiente línea a nuestro constructor.
+
 
 ```csharp
 public ExpensesPage()
@@ -286,19 +285,19 @@ public ExpensesPage()
 }
 ``` 
 
-Ideally, the only logic written in the codebehind file should be configuration of the `BindingContext`. The last thing we need to do is update `App.xaml.cs` to change the `MainPage` property to our new `ExpensesPage`.
+Idealmente, la única lógica escrita en el archivo codebehind debería ser la configuración del `BindingContext`. Lo último que tenemos que hacer es actualizar `App.xaml.cs` para cambiar la propiedad `MainPage` a nuestra nueva `ExpensesPage`.
 
 ```csharp
 MainPage = new ExpensesPage();
 ```
 
-Run the app, and you should now see a list of expenses displayed to you.
+Ejecuta la aplicación, y ahora deberías ver una lista de los gastos que se muestran.
 
  ![](/modules/module-1/images/expenses-list-view.png)
 
-Awesome! Now we have a `ListView` with our expenses that we are fetching from our view model. But what if the user wants to update this data? A common pattern in mobile development when working with `ListView`s is the [pull-to-refresh pattern](https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/interactivity/#Pull_to_Refresh). Lucky for us, this is built right into Xamarin.Forms; all we have to do is configure a few properties on our `ListView`!
+¡Genial! Ahora tenemos un `ListView` con nuestros gastos que recogemos en nuestro modelo de vista. ¿Pero qué pasa si el usuario quiere actualizar estos datos? Un patrón común en el desarrollo móvil cuando se trabaja con `ListView`s es el [pull-to-refresh pattern] (https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/interactivity/#Pull_to_Refresh). Por suerte para nosotros, esto ya esta construido en Xamarin.Forms; Lo único que tenemos que hacer es configurar algunas propiedades en nuestro `ListView`!
 
-Jumping back to `ExpensesPage.xaml`, let's add the following attributes to our `ListView` to enable the pull-to-refresh pattern.
+Volviendo a `ExpensesPage.xaml`, añadamos los siguientes atributos a nuestro` ListView` para activar el patrón de pull-to-refresh.
 
 ```csharp
 <ListView ItemsSource="{Binding Expenses}"
@@ -313,18 +312,18 @@ Jumping back to `ExpensesPage.xaml`, let's add the following attributes to our `
 </ListView>
 ```
 
-Let's walkthrough the various properties we just added:
+Vamos detenernos para ver las propiedades que acabamos de añadir:
 
-* `IsPullToRefreshEnabled`: Defines if we allow the user to perform a pull-to-refresh on the `ListView`. If your content requires refreshing, you should set this value to `true`.
-* `IsRefreshing`: Defines if the `ListView` is in the process of refreshing. We can data bind to the `IsBusy` property. We set the `Mode` to `OneWay`, which ensures that this value can only be updated from our view model to view, not view to view model (i.e. `TwoWay`). 
-* `RefreshCommand`: Defines the `Command` used for actually performing the refresh logic. When the pull-to-refresh action occurs, this `Command` is executed.
+* `IsPullToRefreshEnabled`: Define si permitimos al usuario refrescar el `ListView`. Si tu contenido requiere actualización, debes establecer este valor en `true`.
+* `IsRefreshing`: Define si el `ListView` está en proceso de actualización. Podemos enlazar datos a la propiedad `IsBusy`. Establezcamos `Mode` a `OneWay`, lo que garantiza que este valor sólo se puede actualizar desde nuestro modelo de vista a nuestra vista, no de vista a modelo de vista (es decir, `TwoWay`).
+* `RefreshCommand`: Define el `Command` a ser utilizado para realizar la lógica de la actualización. Cuando se produce la acción pull-to-refresh, este `Command` se ejecuta.
 
-Re-run Spent, and you should now be able to pull-to-refresh to load data!
+Vuelve a ejecutar Spent, y ahora deberás ser capaz de actualizar para cargar datos!
 
-##### 5. Add expense detail page.
-Most `ListView`s also allow users to click on individual cells to view a detail screen with more information about the particular object seen in the cell. This is known as **Master/Detail Navigation** and is a very common pattern in mobile development. Replicating this kind of behavior is extremely easy with Xamarin.Forms.
+##### 5. Añadir página de detalles de gastos.
+La mayoría de `ListView`s también permiten a los usuarios hacer clic en las celdas individuales para ver una pantalla de detalle con más información sobre el objeto particular de la celda. Esto se conoce como **Navegación Maestro / Detalle** y es un patrón muy común en el desarrollo móvil. Replicar este tipo de comportamiento es extremadamente fácil con Xamarin.Forms.
 
-Let's start off by adding a new Xamarin.Forms XAML `ContentPage` to the `Views` folder named `ExpenseDetailPage`. Within this page, we will display all the properties of the `Expense` object, including the receipt photo. Because we will be using more than one `View` within this page (unlike `ExpensesPage`), we will need to use one of Xamarin.Forms' layouts to layout our controls. The easiest and most common layout is the [`StackLayout`](https://developer.xamarin.com/api/type/Xamarin.Forms.StackLayout/), which defines a stack of controls in either the vertical or horizontal orientation. Let's add a new `StackLayout` with a `Padding` of `20` to ensure that our views inside the layout aren't too close to the left, top, right, or bottom of the screen.
+Comenzamos agregando un nuevo XAML de Xamarin.Forms `ContentPage` a la carpeta `Views` llamado `ExpenseDetailPage`. Dentro de esta página, mostraremos todas las propiedades del objeto `Expense`, incluyendo la foto del recibo. Ya que usaremos más de una vista en esta página (a diferencia de ExpensesPage), tendremos que usar uno de los diseños de Xamarin.Forms para diseñar nuestros controles. El diseño más sencillo y más común es el [`StackLayout`] (https://developer.xamarin.com/api/type/Xamarin.Forms.StackLayout/), que define una pila de controles en orientación vertical u horizontal. Añadamos un nuevo `StackLayout` con un 'Padding` de `20` para asegurar que nuestras vistas dentro del diseño no estén demasiado cerca de la izquierda, arriba, derecha o abajo de la pantalla.
 
 ```csharp
 <?xml version="1.0" encoding="UTF-8"?>
@@ -337,9 +336,9 @@ Let's start off by adding a new Xamarin.Forms XAML `ContentPage` to the `Views` 
 </ContentPage>
 ```
 
-Next, let's use the `Label` and `Image` controls in Xamarin.Forms to display to the user detailed information about their expense.
+A continuación, usemos los controles `Label` e `Image` en Xamarin.Forms para mostrar al usuario información detallada de su gasto.
 
-```csharp
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Spent.ExpenseDetailPage">
 	<ContentPage.Content>
@@ -359,7 +358,7 @@ Next, let's use the `Label` and `Image` controls in Xamarin.Forms to display to 
 </ContentPage>
 ```
 
-Notice that we are performing some data binding here to display expense data. We can access the properties of objects in our `BindingContext` by using the dot syntax, just like if we we wanted to access the values of these properties in C#. Just as with our `ExpensesPage`, we need to provide a `BindingContext` for our data binding to function properly. Open `ExpenseDetailPage.xaml.cs`, add a property named `Expense` and update the constructor to take in an `Expense` as a parameter, set the `Expense` property to this paramater, and set the `BindingContext` to `this`.
+Ten en cuenta que estamos realizando enlaces de datos aquí para mostrar los datos de los gastos. Podemos acceder a las propiedades de los objetos en nuestro `BindingContext` utilizando la sintaxis de punto, como si queriéramos acceder a los valores de estas propiedades en C#. Al igual que con nuestro `ExpensesPage`, necesitamos proporcionar un `BindingContext` para que nuestro enlazado de datos funcione correctamente. Abre `ExpenseDetailPage.xaml.cs`, añade una propiedad llamada `Expense` y actualiza el constructor para que pase un `Expense` como parámetro, establezca la propiedad `Expense` en este parametro y establezca `BindingContext` en `this`.
 
 ```csharp
 public partial class ExpenseDetailPage : ContentPage
@@ -376,9 +375,9 @@ public partial class ExpenseDetailPage : ContentPage
 }
 ```
 
-Great! Now it's time to implement navigation from our `ListView` to our detail page. We can do this by using the `SelectedItem` property of the `ListView`. Update `ExpensesPage.xaml` to data bind the `ListView.SelectedItem` property to `SelectedExpenseItem`.
+¡Genial! Ahora es el momento de implementar la navegación desde nuestro `ListView` a nuestra página de detalles. Podemos hacerlo utilizando la propiedad `SelectedItem` del `ListView`. Actualiza `ExpensesPage.xaml` enlazar los datos de la propiedad `ListView.SelectedItem` a `SelectedExpenseItem`.
 
-```csharp
+```xml
 <ListView ItemsSource="{Binding Expenses}"
 	IsPullToRefreshEnabled="true"
 	IsRefreshing="{Binding IsBusy, Mode=OneWay}"
@@ -392,7 +391,7 @@ Great! Now it's time to implement navigation from our `ListView` to our detail p
 </ListView>
 ```
 
-When the `SelectedItem` changes, we can navigate to the detail view for the `SelectedItem`. Open up `ExpensesViewModel` and add a property named `SelectedExpenseItem`.
+Cuando cambia el `SelectedItem`, podemos navegar hasta la vista de detalle del `SelectedItem`. Abre `ExpensesViewModel` y agrega una propiedad llamada `SelectedExpenseItem`.
 
 ```csharp
 Expense selectedExpenseItem;
@@ -413,9 +412,9 @@ public Expense SelectedExpenseItem
 }
 ```
 
-In this code, we are updating the `SelectedExpenseItem`, and firing `OnPropertyChanged`. If the selected item is not null, we want to navigate to the detail page. Finally, we set the value to `null` to remove any cell highlighting that happens when a user taps the cell.
+En este código, estamos actualizando el `SelectedExpenseItem`, y disparando `OnPropertyChanged`. Si el elemento seleccionado no es nulo, queremos navegar a la página de detalles. Finalmente, establezcamos el valor `null` para eliminar cualquier resaltado de celda que suceda cuando un usuario presiona la celda.
 
-To handle navigation, we will need a reference to a `Page`. Let's add a class-level field typed `ExpensesPage`, add a parameter to the constructor of `ExpensesViewModel` to take in an `ExpensesPage`, and this equal to our new `ExpensesPage` field.
+Para manejar la navegación, necesitaremos una referencia a `Page`. Añadamos un campo de nivel de clase llamado `ExpensesPage`, añadamos un parámetro al constructor de `ExpensesViewModel` para obtener un `ExpensesPage`, y este lo igualamos a nuestro nuevo campo `ExpensesPage`.
 
 ```csharp
 ExpensesPage page;
@@ -426,7 +425,7 @@ public ExpensesViewModel(ExpensesPage expensesPage)
 }
 ```
 
-Next, let's update our `SelectedExpenseItem` property to navigate when the value is changed.
+A continuación, actualicemos nuestra propiedad `SelectedExpenseItem` para navegar a ella cuando cambien el valor.
 
 ```csharp
 Expense selectedExpenseItem;
@@ -447,7 +446,7 @@ public Expense SelectedExpenseItem
 }
 ```
 
-We also need to update `Expenses.xaml.cs` to pass in `this` as a value to the `ExpensesViewModel` constructor.
+También tenemos que actualizar `Expenses.xaml.cs` para pasarle `this` como un valor al constructor de `ExpensesViewModel`.
 
 ```csharp
 public partial class ExpensesPage : ContentPage
@@ -461,16 +460,16 @@ public partial class ExpensesPage : ContentPage
 }
 ```
 
-You may have caught that we are using a `Navigation` property of the page to push a new detail page onto the navigation stack. Right now, `ExpensesPage` is a `ContentPage`, which doesn't contain any ability to do navigation. To gain this ability, we must wrap our `ExpensesPage` in a [`NavigationPage`](https://developer.xamarin.com/api/type/Xamarin.Forms.NavigationPage/) to gain the ability to do push/pop and modal navigation. Jump over to `App.xaml.cs` and update the `MainPage` to the following.
+Es posible que hayas notado que estamos utilizando una propiedad `Navigation` de la página para redirigir a una nueva página de detalles en la pila de navegación. En este momento, `ExpensesPage` es un `ContentPage`, que no contiene ninguna capacidad de navegación. Para obtener esta habilidad, debemos envolver nuestro `ExpensesPage` en un [`NavigationPage`] (https://developer.xamarin.com/api/type/Xamarin.Forms.NavigationPage/) para obtener la capacidad de hacer push / pop y la navegación modal. Ve a `App.xaml.cs` y actualiza el `MainPage`:
 
 ```csharp
 MainPage = new NavigationPage(new ExpensesPage());
 ```
 
-By doing this, our `ExpensesPage.Navigation` property is now available for use! Additionally, by using a `NavigationPage`, we get a nice navigation bar at the top of all of our pages to alert users to what page they are on, and to navigate back to the top of the stack (with a "back" button). To have a title display in the navigation bar, we can update the `Title` property of each page to the appropriate value.
+Al hacer esto, nuestra propiedad `ExpensesPage.Navigation` ya está disponible para su uso. Además, usando `NavigationPage`, obtendremos una bonita barra de navegación en la parte superior de todas nuestras páginas para informar a los usuarios sobre la página en la que se encuentran y retroceder (con un botón "Atrás" ). Para ver el título en la barra de navegación, podemos actualizar la propiedad `Title` de cada página al valor correspondiente.
 
 `**ExpensesPage**`
-```csharp
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Spent.ExpensesPage"
 		Title="Expenses">
@@ -480,7 +479,7 @@ By doing this, our `ExpensesPage.Navigation` property is now available for use! 
 ```
 
 `**ExpenseDetailPage**`
-```csharp
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Spent.ExpenseDetailPage"
 		Title="Expense Detail">
@@ -488,23 +487,23 @@ By doing this, our `ExpensesPage.Navigation` property is now available for use! 
 </ContentPage>
 ```
 
-Now, run the application, click on an expense cell, and you will be navigated to a detail page with more information about our expense!
+Ahora, ejecuta la aplicación, haz clic sobre una celda de gastos y te llevará a una página de detalles con más información sobre el gasto.
 
  ![](/modules/module-1/images/expenses-detail-view.png)
 
-##### 6. Navigation with the Messaging Center.
-Right now, we have a working master-detail navigation flow that shows a list of expenses, as well as detailed information about each expense. We can clean this up to be even better and reduce tight coupling between our views and view models.
+##### 6. Navegación con el Centro de mensajería.
+En este momento, tenemos un flujo de navegación de maestro-detalle que muestra una lista de gastos, así como información detallada sobre cada gasto. Podemos limpiar esto para mejorarlo y reducir el acoplamiento entre nuestras vistas y modelos de vista.
 
-Xamarin.Forms [`MessagingCenter`](https://developer.xamarin.com/guides/xamarin-forms/messaging-center/) enables view models and other components to communicate without having to know anything about each other besides a simple message contract. There are two main parts to the `MessagingCenter`:
+Xamarin.Forms [`MessagingCenter`] (https://developer.xamarin.com/guides/xamarin-forms/messaging-center/) permite a los modelos de vista y otros componentes comunicarse sin tener que saber nada acerca el uno del otro aparte de un simple mensaje contrato. El `MessagingCenter` tiene dos partes principales:
 
-1. **Subscribe**: Listen for messages with a certain signature and perform some action when they are received. Mulitple subscribers can be listening for the same message.
-2. **Send**: Publish a message for listeners to act upon. If no listeners have subscribed then the message is ignored.
+1. **Subscribe**: Escucha los mensajes y realiza alguna acción cuando los reciba. Muchos suscriptores pueden estar escuchando el mismo mensaje.
+2. **Send**: Publica un mensaje para que los oyentes puedan actuar. Si no hay suscriptores suscritos, entonces el mensaje será ignorado.
 
-Instead of passing a `Page` around to handle navigation, what if we used the Xamarin.Forms `MessagingCenter` to handle this? Let's update our current app to use this approach.
+En lugar de pasar un `Page` para manejar la navegación, ¿qué pasa si usamos el ` MessagingCenter` de Xamarin.Forms para manejar esto? Actualizemos nuestra aplicación actual para utilizar este enfoque.
 
-Let's start by undoing some of the "harm" we have done! Open `ExpensesViewModel` and remove the parameter from the constructor, as well as the `ExpensesPage` field and all references to it in `SelectedExpenseItem`. Jump over to `ExpensesPage.xaml.cs` and update initialization of the `ExpensesViewModel` to have no parameters. 
+Comencemos por deshacer algunos de los "daños" que hemos hecho! Abre `ExpensesViewModel` y elimina el parámetro del constructor, así como el campo `ExpensesPage` y todas las referencias a él en `SelectedExpenseItem`. Ve a `ExpensesPage.xaml.cs` y actualiza la inicialización de `ExpensesViewModel` para que no tenga parámetros.
 
-Next, let's open back up `ExpensesViewModel` and send our first message! Let's send a message by using the following method signature `MessagingCenter.Send(TSender sender, string message, TArgs args)`. 
+A continuación, abramos de nuevo `ExpensesViewModel` y enviemos nuestro primer mensaje! Enviemos un mensaje usando la siguiente firma de método `MessagingCenter.Send (TSender sender, string message, TArgs args)`. 
 
 ```csharp
 Expense selectedExpenseItem;
@@ -525,7 +524,7 @@ public Expense SelectedExpenseItem
 }
 ```
 
-Note that we pass in `this` as the sender, "NavigateToDetail" as the message, and our selected `Expense` object as an argument. Sending a message is great, but if nobody is listening for messages of that signature, nothing will happen. Jump back over to `ExpensesPage.xaml.cs` and add two new methods: `SubscribeToMessages` and `UnsubscribeFromMessages`. Also, override the `OnAppearing` and `OnDisappearing` lifecycle methods of our `ContentPage` to call `SubscribeToMessages` and `UnsubscribeFromMessages`.
+Ten en cuenta que pasamos `this` como el remitente, "NavigateToDetail" como el mensaje, y nuestro objeto `Expense` seleccionado como un argumento. Enviar un mensaje es genial, pero si nadie está escuchando los mensajes, no pasará nada. Vuelve a `ExpensesPage.xaml.cs` y añade dos nuevos métodos: `SubscribeToMessages` y `UnsubscribeFromMessages`. Además, reemplaza los métodos de ciclo de vida `OnAppearing` y `OnDisappearing` de nuestro `ContentPage` para llamar a `SubscribeToMessages` y `UnsubscribeFromMessages`.
 
 ```csharp
 protected override void OnAppearing()
@@ -553,7 +552,7 @@ void UnsubscribeFromMessages()
 }
 ```
 
-It's important that we properly subscribe and unsubscribe to messages from the `MessagingCenter` to avoid null references and possible memory leaks. Let's subscribe to the message sent from our view model in `SubscribeToMessages`.
+Es importante que nos suscribamos y demos de baja de los mensajes del `MessagingCenter` para evitar referencias nulas y posibles pérdidas de memoria. Suscribámonos al mensaje enviado desde nuestro modelo de vista en `SubscribeToMessages`.
 
 ```csharp
 void SubscribeToMessages()
@@ -573,16 +572,16 @@ void SubscribeToMessages()
 }
 ```
 
-This subscribes us to messages with string "NavigateToDetail" coming from `ExpensesViewModel` with argument(s) `Expense`. If we receive a message, we first check that the argument isn't null, then navigate to our detail page. 
+Esto nos suscribe a los mensajes con la cadena "NavigateToDetail" proviniente de `ExpensesViewModel` con argumento(s) `Expense`. Si recibimos un mensaje, primero verificamos que el argumento no es nulo, luego navegamos a nuestra página de detalles.
 
-We can easily unsuscribe in `UnsubscribeFromMessages` as well.
+Podemos darnos de baja fácilmente en `UnsubscribeFromMessages`.
 
 ```csharp
 MessagingCenter.Unsubscribe<ExpensesViewModel, Expense>(this, "NavigateToDetail");
 MessagingCenter.Unsubscribe<ExpensesViewModel, string>(this, "Error");
 ```
 
-Run the app, and navigation should still be working as intended - only this time we are properly avoiding tight coupling between our view model and view.
+Ejecuta la aplicación, la navegación seguirá funcionando según lo previsto, pero esta vez estamos evitando adecuadamente el acoplamiento estrecho entre nuestro modelo de vista y nuestra vista.
 
 #### Closing Remarks
-In this module, you learned about the basics of building apps with Xamarin.Forms, including creating user interfaces in XAML, navigation, MVVM, data binding and commanding, as well as use of the `MessagingCenter`. In the next module, we'll take a look at polishing off our Xamarin.Forms app before connecting it to the cloud in Modules 3 and 4.
+En este módulo, has aprendido sobre los conceptos básicos de la creación de aplicaciones con Xamarin.Forms, incluyendo la creación de interfaces de usuario en XAML, navegación, MVVM, enlace de datos y comandos, así como el uso del `MessagingCenter`. En el siguiente módulo, incluiremos los últimos detalles a nuestra aplicación Xamarin.Forms antes de conectarla a la nube en los módulos 3 y 4.
