@@ -492,7 +492,7 @@ Al hacer esto, nuestra propiedad `ExpensesPage.Navigation` ya está disponible p
 
 Ahora, ejecuta la aplicación, haz clic sobre una celda de gastos y te llevará a una página de detalles con más información sobre el gasto.
 
- ![](/modules/module-1/images/expenses-detail-view.png)
+ ![](/modules/module-1/images/expense-detail-view.png)
 
 ##### 6. Navegación con el Centro de mensajería.
 En este momento, tenemos un flujo de navegación de maestro-detalle que muestra una lista de gastos, así como información detallada sobre cada gasto. Podemos limpiar esto para mejorarlo y reducir el acoplamiento entre nuestras vistas y modelos de vista.
