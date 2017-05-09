@@ -10,7 +10,7 @@ Asegurate que tienes instalado el siguiente software:
 Descarga el código inicial de este módulo para empezar.
 
 ### Empezando
-En este taller, aprenderas a desarrollar aplicaciones multiplataformas conectadas para iOS, Android y Windows con Xamarin.Forms y Microsoft Azure. Este taller te guiará de inicio a fin en el desarrollo de una aplicación qué hará un seguimiento de gastos personales, incluyendo el almacenamiento de recibos.
+En este taller, aprenderas a desarrollar aplicaciones multiplataforma conectadas para iOS, Android y Windows con Xamarin.Forms y Microsoft Azure. Este taller te guiará de inicio a fin en el desarrollo de una aplicación qué hará un seguimiento de gastos personales, incluyendo el almacenamiento de recibos.
 
 Esta solución contiene 4 proyectos:
 
@@ -19,11 +19,14 @@ Esta solución contiene 4 proyectos:
 * Spent.iOS - Aplicación Xamarin.iOS
 * Spent.Windows - Aplicación Windows 10 UWP (solo puede ser ejecutada desde Visual Studio 2015 en Windows 10).
 
+> Intenta guardar el proyecto en rutas cortas porque sino te va a dar problemas. Es decir, que la ruta del proyecto sea del estilo C:/Spent/ o en C:/Carpeta/Spent/
+
+
  ![](/modules/module-1/images/solution-explorer.png)
 
 NuGet es un gestor de paquetes para .NET que nos ayuda a aprovechar las ventajas que nos ofrecen las librerías existentes como JSON.NET para compartir más código y desarrollar aplicaciones de manera más rápida. Todos los proyectos ya contienen las dependencias NuGet, por tanto no existe necesidad de instalar paquetes NuGet adicionales a lo largo del taller. Para descargar los Nuggets asociados a los proyectos hay que restaurarlos.
 
-Para hacer esto, haz click derecho sobre el nombre de la solución en el **Explorador de Soluciones** y elige **Restaurar Paquetes NuGet**.
+Para hacer esto, haz click derecho sobre el nombre de la solución en el **Explorador de Soluciones** y elige **Restaurar Paquetes NuGet**. Si después de eso la referencia de SQLite for Universal Windows Platform te da problemas, la puedes eliminar y meterla más adelante.
 
  ![](/modules/module-1/images/restore-nugets.png)
 
@@ -39,9 +42,9 @@ Cuando la aplicación se despliega en el simulador o emulador, verás una sola e
 
  ![](/modules/module-1/images/welcome-to-xamarin-forms.png)
 
-Investiguemos las piezas clave de una aplicación Xamarin.Forms. Expande el proyecto `Spent` para ver varias carpetas vacías y algunos archivos. Las aplicaciones Xamarin tradicionales nos permiten compartir entre el 70-90% del código, pero toda la lógica de la interfaz de usuario reside en los proyectos individuales de la plataforma. Para aplicaciones Xamarin.Forms, aun podemos compartir todo el código que desarrollamos en una aplicación Xamarin tradicional, y también la lógica de la interfaz de usuario. Todo el código compartido está desarrollado en un [Proyecto Compartido] (https://developer.xamarin.com/guides/cross-platform/application_fundamentals/shared_projects/) o [Portable Class Library (PCL)](https://developer.xamarin.com/guides/cross-platform/application_fundamentals/pcl/).
+Investiguemos las piezas clave de una aplicación Xamarin.Forms. Expande el proyecto `Spent` para ver varias carpetas vacías y algunos archivos. Las aplicaciones Xamarin tradicionales nos permiten compartir entre el 70-90% del código, pero toda la lógica de la interfaz de usuario reside en los proyectos individuales de la plataforma. Para aplicaciones Xamarin.Forms, aun podemos compartir todo el código que desarrollamos en una aplicación Xamarin tradicional, y también la lógica de la interfaz de usuario. Todo el código compartido está desarrollado en un [Proyecto Compartido(https://developer.xamarin.com/guides/cross-platform/application_fundamentals/shared_projects/) o [Portable Class Library (PCL)](https://developer.xamarin.com/guides/cross-platform/application_fundamentals/pcl/).
 
-La clase `Application` es el punto de entrada principal de las aplicaciones Xamarin.Forms. Esta clase selecciona la página principal de la aplicación y administra la lógica del ciclo de vida de la aplicación, como `OnStart`,` OnSleep` y `OnResume`.
+La clase `App` es el punto de entrada principal de las aplicaciones Xamarin.Forms. Esta clase selecciona la página principal de la aplicación y administra la lógica del ciclo de vida de la aplicación, como `OnStart`,` OnSleep` y `OnResume`.
 
 Es natural preguntarse por qué todavía tenemos proyectos específicos de cada plataforma si se comparte todo el código. Esto se debe a que todas las aplicaciones de Xamarin.Forms _son_ aplicaciones nativas, y todavía tenemos la capacidad de acceder al código específico de la plataforma para acceder al 100% de las API nativas subyacentes. Si entras al proyecto `Spent.Droid` y abres` MainActivity`, verás dos líneas que inicializarán la librería de Xamarin.Forms y cargarán una nueva aplicación Xamarin.Forms:
 
@@ -49,16 +52,16 @@ Es natural preguntarse por qué todavía tenemos proyectos específicos de cada 
 Xamarin.Forms.Forms.Init(this, bundle);
 LoadApplication(new App());
 ```
-Dentro de una aplicación existen una serie de pantallas, o ** [Páginas] (https://developer.xamarin.com/guides/xamarin-forms/controls/pages/) **. Existen siete tipos diferentes de páginas en Xamarin.Forms, desde páginas para mostrar contenido (`ContentPage`) hasta páginas que gestionan la navegación (` TabbedPage`, `NavigationPage`, etc.). Las páginas definen una interfaz de usuario en XAML o C #. Si defines la lógica de la interfaz de usuario en XAML, también tendrás un archivo de codebehind asociado (llamado `.xaml.cs`) para la lógica de esa página. `MainPage` en el proyecto` Spent` es un ejemplo de una página.
+Dentro de una aplicación existen una serie de pantallas, o **[Páginas](https://developer.xamarin.com/guides/xamarin-forms/controls/pages/)**. Existen siete tipos diferentes de páginas en Xamarin.Forms, desde páginas para mostrar contenido (`ContentPage`) hasta páginas que gestionan la navegación (` TabbedPage`, `NavigationPage`, etc.). Las páginas definen una interfaz de usuario en XAML o C #. Si defines la lógica de la interfaz de usuario en XAML, también tendrás un archivo de codebehind asociado (llamado `.xaml.cs`) para la lógica de esa página. `MainPage` en el proyecto` Spent` es un ejemplo de una página.
 
-Dentro de una página, podemos usar **[Layouts] (https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/)** para que Xamarin.Forms sepa cómo mostrar controles individuales dentro de la página. Existen dos tipos principales: diseños gestionados y no gestionados. En general, vamos a optar por diseños gestionados, ya que inteligentemente "administran" el diseño de nuestros controles, sin importar el sistema operativo o dispositivo en el que se ejecuta la aplicación.
+Dentro de una página, podemos usar **[Layouts](https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/)** para que Xamarin.Forms sepa cómo mostrar controles individuales dentro de la página. Existen dos tipos principales: diseños gestionados y no gestionados. En general, vamos a optar por diseños gestionados, ya que inteligentemente "administran" el diseño de nuestros controles, sin importar el sistema operativo o dispositivo en el que se ejecuta la aplicación.
 
 ##### 3. Agrega un view model base.
-Ahora que hemos visto una introducción básica a Xamarin.Forms, vamos a empezar a construir nuestra aplicación! Xamarin.Forms tiene soporte incorporado para el patrón de diseño Model-ViewModel-View (MVVM) que es común en el desarrollo de aplicaciones Windows. Esto nos ayuda a separar nuestra lógica de interfaz de usuario de nuestra lógica de negocio. La ** Vista ** contiene toda la lógica de la interfaz de usuario (o lo que el usuario ve cuando usa tu aplicación). ** ViewModel ** es una abstracción de la vista que contiene la lógica que impulsa la interacción del usuario con nuestra aplicación. Un ejemplo para una página con una lista de elementos puede ser lógica para descargar JSON desde la web, deserializarla y ponerla en una lista para que nuestra interfaz de usuario se muestre. ** Modelo ** es un modelo de dominio o una capa de acceso a datos.
+Ahora que hemos visto una introducción básica a Xamarin.Forms, ¡vamos a empezar a construir nuestra aplicación! Xamarin.Forms tiene soporte incorporado para el patrón de diseño Model-ViewModel-View (MVVM) que es común en el desarrollo de aplicaciones Windows. Esto nos ayuda a separar nuestra lógica de interfaz de usuario de nuestra lógica de negocio. La **Vista** contiene toda la lógica de la interfaz de usuario (o lo que el usuario ve cuando usa tu aplicación). **ViewModel** es una abstracción de la vista que contiene la lógica que impulsa la interacción del usuario con nuestra aplicación. Un ejemplo para una página con una lista de elementos puede ser lógica para descargar JSON desde la web, deserializarla y ponerla en una lista para que nuestra interfaz de usuario se muestre. **Modelo** es un modelo de dominio o una capa de acceso a datos.
 
-Para comenzar con MVVM, necesitamos utilizar el concepto de **[vinculación de datos] (https://developer.xamarin.com/guides/xamarin-forms/xaml/xaml-basics/data_binding_basics/)**. La vinculación de datos es el flujo de datos entre nuestra vista y el modelo de vista, como cuando un usuario tira de la actualización para cargar nuevos datos o los escribe en un cuadro de texto. Nuestra interfaz de usuario debe ser alertada cuando algo cambie en nuestro modelo de vista. Para ello, implementaremos la interfaz `INotifyPropertyChanged`. Debido a que este comportamiento es algo que queremos tener en todos nuestros modelos de vista para esta aplicación, vamos a empezar por agregar un nuevo modelo de vista base que podemos reutilizar.
+Para comenzar con MVVM, necesitamos utilizar el concepto de **[vinculación de datos](https://developer.xamarin.com/guides/xamarin-forms/xaml/xaml-basics/data_binding_basics/)**. La vinculación de datos es el flujo de datos entre nuestra vista y el modelo de vista, como cuando un usuario tira de la actualización para cargar nuevos datos o los escribe en un cuadro de texto. Nuestra interfaz de usuario debe ser alertada cuando algo cambie en nuestro modelo de vista. Para ello, implementaremos la interfaz `INotifyPropertyChanged`. Debido a que este comportamiento es algo que queremos tener en todos nuestros modelos de vista para esta aplicación, vamos a empezar por agregar un nuevo modelo de vista base que podemos reutilizar.
 
-Haga clic con el botón derecho del ratón en la carpeta `Ver modelos`, seleccione` Añadir -> Nuevo archivo`, seleccione una clase C # vacía, y llámela `BaseViewModel`. Introduzca el espacio de nombres `System.ComponentModel` e implemente la interfaz` INotifyPropertyChanged`.
+Haga clic con el botón derecho del ratón en la carpeta `View Models`, seleccione` Añadir -> Nuevo archivo`, seleccione una clase C # vacía, y llámela `BaseViewModel`. Introduzca el espacio de nombres `System.ComponentModel` e implemente la interfaz` INotifyPropertyChanged`.
 
 ```csharp
 using System;
@@ -79,7 +82,7 @@ namespace Spent
 
 A continuación, vamos a agregar un método llamado `OnPropertyChanged` que activará el evento `PropertyChanged`. Cada vez que una propiedad cambie en nuestro modelo de vista que necesita ser actualizada en la vista, llamaremos a este método.
 
-**C# 6 (Visual Studio 2015 or Xamarin Studio on Mac)**
+**C# 6 (Visual Studio 2017, 2015 o Xamarin Studio on Mac)**
 ```csharp
 using System.Runtime.CompilerServices;
 
@@ -118,7 +121,7 @@ public bool IsBusy
 }
 ```
 
-Awesome! We've now finished our `BaseViewModel` that we can reuse in all future view models.
+!Bien! Ya hemos terminado el `BaseViewModel` que podremos reusar en todos los futuros View Models.
 
 ##### 3. Add expenses model.
 El objetivo de Spent es ayudar a los usuarios a controlar sus gastos. Nuestro principal objeto de dominio es un gasto, por lo que vamos a añadir un nuevo modelo `Expense` para almacenar información sobre un gasto particular. Haz clic con el botón derecho del ratón en la carpeta `Modelos`, haz clic en `Agregar -> Nuevo archivo`, selecciona una clase C # vacía y llámala `Expense`.
@@ -206,9 +209,9 @@ Expenses.Add(new Expense { Company = "Apple", Description = "New iPhone came out
 Expenses.Add(new Expense { Company = "Amazon", Description = "Case to protect my new iPhone.", Amount = "$50", Date = DateTime.Now.AddDays(-2) });
 ```
 
-Let's call `GetExpensesAsync` in the constructor to ensure that data is added to our `Expenses` property.
+Acuérdate de llamar al `GetExpensesAsync` en el constructor, para asegurarnos de que los datos se añaden a la propiedad `Expenses`.
 
-Genial! Ahora tenemos datos cargándose en nuestro modelo de vista. Pero ¿y si el usuario quiere actualizar la vista? En este momento, la única forma de cargar más datos es reiniciar la aplicación, ya que el único lugar en el que cargamos los gastos está en el constructor del modelo de vista. Si el enlace de datos es el flujo de datos entre el modelo de vista y de vista, **Los Commandos** son el flujo de eventos. Añadamos un nuevo `Command` que podemos llamar desde nuestra lógica de interfaz de usuario para actualizar los datos.
+¡Genial! Ahora tenemos datos cargándose en nuestro modelo de vista. Pero ¿y si el usuario quiere actualizar la vista? En este momento, la única forma de cargar más datos es reiniciar la aplicación, ya que el único lugar en el que cargamos los gastos está en el constructor del modelo de vista. Si el enlace de datos es el flujo de datos entre el modelo de vista y de vista, **Los Commandos** son el flujo de eventos. Añadamos un nuevo `Command` que podemos llamar desde nuestra lógica de interfaz de usuario para actualizar los datos.
 
 ```csharp
 public Command GetExpensesCommand { get; set; }
@@ -221,12 +224,12 @@ GetExpensesCommand = new Command(
     async () => await GetExpensesAsync());
 ```
 
-Ahora tenemos un `ExpensesViewModel` completo que carga una lista de `Expenses` y también permite al usuario actualizar la lista llamando a nuestro `GetExpensesCommand`. Vamos a construir nuestra interfaz de usuario!
+Ahora tenemos un `ExpensesViewModel` completo que carga una lista de `Expenses` y también permite al usuario actualizar la lista llamando a nuestro `GetExpensesCommand`. ¡Vamos a construir nuestra interfaz de usuario!
 
 ##### 4. Agregar página de gastos.
 Las interfaces de usuario en Xamarin.Forms se construyen utilizando C# o XAML. Aunque hay ventajas e inconvenientes para cada enfoque, XAML nos ayuda a implementar mejor el patrón MVVM y mantener una separación de nuestro modelo de vista y lógica de vista. También ayuda en la visualización del árbol visual que puede ser un poco más difícil de hacer al definir nuestras interfaces de usuario en C#.
 
-Vamos a agregar una página para mostrar nuestros gastos. Haz clic con el botón derecho sobre la carpeta `Views`, haz clic sobre `Add -> New File`, añade `Forms -> Forms ContentPage Xaml` si utilizas Xamarin Studio o `Cross-Platform -> Forms Xaml Page` si utilizas Visual Studio llámalo `ExpensesPage`. Se añadirán dos archivos: `ExpensesPage.xaml` para definir nuestra interfaz de usuario y` ExpensesPage.xaml.cs` (nuestro "codebehind") para conectar nuestra vista a nuestro modelo de vista.
+Vamos a agregar una página para mostrar nuestros gastos. Haz clic con el botón derecho sobre la carpeta `Views`, haz clic sobre `Add -> New File`, añade `Forms -> Forms ContentPage Xaml` si utilizas Xamarin Studio o `Cross-Platform -> Forms Blank Content Page Xaml Page` si utilizas Visual Studio. Llámalo `ExpensesPage`. Se añadirán dos archivos: `ExpensesPage.xaml` para definir nuestra interfaz de usuario y` ExpensesPage.xaml.cs` (nuestro "codebehind") para conectar nuestra vista a nuestro modelo de vista.
 
 Debido a que estamos mostrando una lista de elementos, el control que tiene más sentido aquí es el control [`ListView`] (https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/). Añade un `ListView` entre los elementos` ContentPage.Content` en XAML.
 
@@ -446,7 +449,7 @@ public Expense SelectedExpenseItem
 }
 ```
 
-También tenemos que actualizar `Expenses.xaml.cs` para pasarle `this` como un valor al constructor de `ExpensesViewModel`.
+También tenemos que actualizar `ExpensesPage.xaml.cs` para pasarle `this` como un valor al constructor de `ExpensesViewModel`.
 
 ```csharp
 public partial class ExpensesPage : ContentPage
@@ -460,7 +463,7 @@ public partial class ExpensesPage : ContentPage
 }
 ```
 
-Es posible que hayas notado que estamos utilizando una propiedad `Navigation` de la página para redirigir a una nueva página de detalles en la pila de navegación. En este momento, `ExpensesPage` es un `ContentPage`, que no contiene ninguna capacidad de navegación. Para obtener esta habilidad, debemos envolver nuestro `ExpensesPage` en un [`NavigationPage`] (https://developer.xamarin.com/api/type/Xamarin.Forms.NavigationPage/) para obtener la capacidad de hacer push / pop y la navegación modal. Ve a `App.xaml.cs` y actualiza el `MainPage`:
+Es posible que hayas notado que estamos utilizando una propiedad `Navigation` de la página para redirigir a una nueva página de detalles en la pila de navegación. En este momento, `ExpensesPage` es un `ContentPage`, que no contiene ninguna capacidad de navegación. Para obtener esta habilidad, debemos envolver nuestro `ExpensesPage` en un [`NavigationPage`](https://developer.xamarin.com/api/type/Xamarin.Forms.NavigationPage/) para obtener la capacidad de hacer push / pop y la navegación modal. Ve a `App.xaml.cs` y actualiza el `MainPage`:
 
 ```csharp
 MainPage = new NavigationPage(new ExpensesPage());
