@@ -42,7 +42,7 @@ Cuando la aplicación se despliega en el simulador o emulador, verás una sola e
 
  ![](/modules/module-1/images/welcome-to-xamarin-forms.png)
 
-Investiguemos las piezas clave de una aplicación Xamarin.Forms. Expande el proyecto `Spent` para ver varias carpetas vacías y algunos archivos. Las aplicaciones Xamarin tradicionales nos permiten compartir entre el 70-90% del código, pero toda la lógica de la interfaz de usuario reside en los proyectos individuales de la plataforma. Para aplicaciones Xamarin.Forms, aun podemos compartir todo el código que desarrollamos en una aplicación Xamarin tradicional, y también la lógica de la interfaz de usuario. Todo el código compartido está desarrollado en un [Proyecto Compartido(https://developer.xamarin.com/guides/cross-platform/application_fundamentals/shared_projects/) o [Portable Class Library (PCL)](https://developer.xamarin.com/guides/cross-platform/application_fundamentals/pcl/).
+Investiguemos las piezas clave de una aplicación Xamarin.Forms. Expande el proyecto `Spent` para ver varias carpetas vacías y algunos archivos. Las aplicaciones Xamarin tradicionales nos permiten compartir entre el 70-90% del código, pero toda la lógica de la interfaz de usuario reside en los proyectos individuales de la plataforma. Para aplicaciones Xamarin.Forms, aun podemos compartir todo el código que desarrollamos en una aplicación Xamarin tradicional, y también la lógica de la interfaz de usuario. Todo el código compartido está desarrollado en un [Proyecto Compartido](https://developer.xamarin.com/guides/cross-platform/application_fundamentals/shared_projects/) o [Portable Class Library (PCL)](https://developer.xamarin.com/guides/cross-platform/application_fundamentals/pcl/).
 
 La clase `App` es el punto de entrada principal de las aplicaciones Xamarin.Forms. Esta clase selecciona la página principal de la aplicación y administra la lógica del ciclo de vida de la aplicación, como `OnStart`,` OnSleep` y `OnResume`.
 
@@ -231,7 +231,7 @@ Las interfaces de usuario en Xamarin.Forms se construyen utilizando C# o XAML. A
 
 Vamos a agregar una página para mostrar nuestros gastos. Haz clic con el botón derecho sobre la carpeta `Views`, haz clic sobre `Add -> New File`, añade `Forms -> Forms ContentPage Xaml` si utilizas Xamarin Studio o `Cross-Platform -> Forms Blank Content Page Xaml Page` si utilizas Visual Studio. Llámalo `ExpensesPage`. Se añadirán dos archivos: `ExpensesPage.xaml` para definir nuestra interfaz de usuario y` ExpensesPage.xaml.cs` (nuestro "codebehind") para conectar nuestra vista a nuestro modelo de vista.
 
-Debido a que estamos mostrando una lista de elementos, el control que tiene más sentido aquí es el control [`ListView`] (https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/). Añade un `ListView` entre los elementos` ContentPage.Content` en XAML.
+Debido a que estamos mostrando una lista de elementos, el control que tiene más sentido aquí es el control [`ListView`](https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/). Añade un `ListView` entre los elementos` ContentPage.Content` en XAML.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -264,7 +264,7 @@ Esto significa que todos los datos mostrados en el `ListView` están "enlazados"
 </ListView>
 ```
 
-El código anterior sirve para definir las celdas individuales dentro de un `ListView`. Xamarin.Forms viene con varias [celdas pre-construidas] (https://developer.xamarin.com/guides/xamarin-forms/controls/cells/) para que puedas aprovecharlas (`TextCell`, `ImageCell` y `SwitchCell`), pero también puedes crear tus propias celdas. Aprovechemos el `TextCell`preconfigurado para mostrar nuestros datos de `Expense`.
+El código anterior sirve para definir las celdas individuales dentro de un `ListView`. Xamarin.Forms viene con varias [celdas pre-construidas](https://developer.xamarin.com/guides/xamarin-forms/controls/cells/) para que puedas aprovecharlas (`TextCell`, `ImageCell` y `SwitchCell`), pero también puedes crear tus propias celdas. Aprovechemos el `TextCell`preconfigurado para mostrar nuestros datos de `Expense`.
 
 ```csharp
 <ListView ItemsSource="{Binding Expenses}">
@@ -298,7 +298,7 @@ Ejecuta la aplicación, y ahora deberías ver una lista de los gastos que se mue
 
  ![](/modules/module-1/images/expenses-list-view.png)
 
-¡Genial! Ahora tenemos un `ListView` con nuestros gastos que recogemos en nuestro modelo de vista. ¿Pero qué pasa si el usuario quiere actualizar estos datos? Un patrón común en el desarrollo móvil cuando se trabaja con `ListView`s es el [pull-to-refresh pattern] (https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/interactivity/#Pull_to_Refresh). Por suerte para nosotros, esto ya esta construido en Xamarin.Forms; Lo único que tenemos que hacer es configurar algunas propiedades en nuestro `ListView`!
+¡Genial! Ahora tenemos un `ListView` con nuestros gastos que recogemos en nuestro modelo de vista. ¿Pero qué pasa si el usuario quiere actualizar estos datos? Un patrón común en el desarrollo móvil cuando se trabaja con `ListView`s es el [pull-to-refresh pattern](https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/interactivity/#Pull_to_Refresh). Por suerte para nosotros, esto ya esta construido en Xamarin.Forms; Lo único que tenemos que hacer es configurar algunas propiedades en nuestro `ListView`!
 
 Volviendo a `ExpensesPage.xaml`, añadamos los siguientes atributos a nuestro` ListView` para activar el patrón de pull-to-refresh.
 
@@ -326,7 +326,7 @@ Vuelve a ejecutar Spent, y ahora deberás ser capaz de actualizar para cargar da
 ##### 5. Añadir página de detalles de gastos.
 La mayoría de `ListView`s también permiten a los usuarios hacer clic en las celdas individuales para ver una pantalla de detalle con más información sobre el objeto particular de la celda. Esto se conoce como **Navegación Maestro / Detalle** y es un patrón muy común en el desarrollo móvil. Replicar este tipo de comportamiento es extremadamente fácil con Xamarin.Forms.
 
-Comenzamos agregando un nuevo XAML de Xamarin.Forms `ContentPage` a la carpeta `Views` llamado `ExpenseDetailPage`. Dentro de esta página, mostraremos todas las propiedades del objeto `Expense`, incluyendo la foto del recibo. Ya que usaremos más de una vista en esta página (a diferencia de ExpensesPage), tendremos que usar uno de los diseños de Xamarin.Forms para diseñar nuestros controles. El diseño más sencillo y más común es el [`StackLayout`] (https://developer.xamarin.com/api/type/Xamarin.Forms.StackLayout/), que define una pila de controles en orientación vertical u horizontal. Añadamos un nuevo `StackLayout` con un 'Padding` de `20` para asegurar que nuestras vistas dentro del diseño no estén demasiado cerca de la izquierda, arriba, derecha o abajo de la pantalla.
+Comenzamos agregando un nuevo XAML de Xamarin.Forms `ContentPage` a la carpeta `Views` llamado `ExpenseDetailPage`. Dentro de esta página, mostraremos todas las propiedades del objeto `Expense`, incluyendo la foto del recibo. Ya que usaremos más de una vista en esta página (a diferencia de ExpensesPage), tendremos que usar uno de los diseños de Xamarin.Forms para diseñar nuestros controles. El diseño más sencillo y más común es el [`StackLayout`](https://developer.xamarin.com/api/type/Xamarin.Forms.StackLayout/), que define una pila de controles en orientación vertical u horizontal. Añadamos un nuevo `StackLayout` con un 'Padding` de `20` para asegurar que nuestras vistas dentro del diseño no estén demasiado cerca de la izquierda, arriba, derecha o abajo de la pantalla.
 
 ```csharp
 <?xml version="1.0" encoding="UTF-8"?>
@@ -497,7 +497,7 @@ Ahora, ejecuta la aplicación, haz clic sobre una celda de gastos y te llevará 
 ##### 6. Navegación con el Centro de mensajería.
 En este momento, tenemos un flujo de navegación de maestro-detalle que muestra una lista de gastos, así como información detallada sobre cada gasto. Podemos limpiar esto para mejorarlo y reducir el acoplamiento entre nuestras vistas y modelos de vista.
 
-Xamarin.Forms [`MessagingCenter`] (https://developer.xamarin.com/guides/xamarin-forms/messaging-center/) permite a los modelos de vista y otros componentes comunicarse sin tener que saber nada acerca el uno del otro aparte de un simple mensaje contrato. El `MessagingCenter` tiene dos partes principales:
+Xamarin.Forms [`MessagingCenter`](https://developer.xamarin.com/guides/xamarin-forms/messaging-center/) permite a los modelos de vista y otros componentes comunicarse sin tener que saber nada acerca el uno del otro aparte de un simple mensaje contrato. El `MessagingCenter` tiene dos partes principales:
 
 1. **Subscribe**: Escucha los mensajes y realiza alguna acción cuando los reciba. Muchos suscriptores pueden estar escuchando el mismo mensaje.
 2. **Send**: Publica un mensaje para que los oyentes puedan actuar. Si no hay suscriptores suscritos, entonces el mensaje será ignorado.
