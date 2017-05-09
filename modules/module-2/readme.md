@@ -10,12 +10,12 @@ Asegúrate de que tienes instalado el siguiente software:
 Descarga el código inicial de este módulo para comenzar o continua trabajando con el código completo del Módulo 1.
 
 ### Instrucciones del módulo
-Este módulo esta basado en el Módulo 1 ampliando aún más tu aplicación para permitirte agregar tus propios gastos, incluidas las fotos de los recibos. También echamos un vistazo al `DependencyService`, a los estilos, a la incrustación de control nativo, así como a las mejoras de rendimiento para crear aplicaciones móviles con gran rendimiento.
+Este módulo esta basado en el Módulo 1, ampliando aún más tu aplicación para permitirte agregar tus propios gastos, incluidas las fotos de los recibos. También echamos un vistazo al `DependencyService`, a los estilos, a la incrustación de control nativo, así como a las mejoras de rendimiento para crear aplicaciones móviles con gran rendimiento.
 
 ##### 1. Crea un servicio de almacenamiento de datos con el `DependencyService`.
-La arquitectura actual de Spent no es mala, pero definitivamente hay margen para mejorar, especialmente en relación a los datos. Es probable que necesitemos una forma de acceder a nuestros datos de gastos, sin que importe en que parte de la aplicación nos encontremos (como agregar un nuevo gasto). Además, también necesitamos flexibilidad en caso de que deseamos cambiar la forma en la que nuestros datos se almacenarán en el futuro (como la nube por ejemplo).
+La arquitectura actual de Spent no es mala, pero definitivamente hay margen para mejorar, especialmente en relación a los datos. Es probable que necesitemos una forma de acceder a nuestros datos de gastos, sin que importe en qué parte de la aplicación nos encontremos (como agregar un nuevo gasto). Además, también necesitamos flexibilidad en caso de que deseamos cambiar la forma en la que nuestros datos se almacenarán en el futuro (como la nube por ejemplo).
 
-Podemos utilizar el Xamarin.Forms [`DependencyService`] (https://developer.xamarin.com/guides/xamarin-forms/dependency-service/) para reducir aún más el acoplamiento y permitirnos cambiar fácilmente las implementaciones de almacenamiento de datos con una sola línea de código. El `DependencyService` resuelve dependencias. En la práctica, se define una interfaz y el `DependencyService` encuentra la implementación correcta para esa interfaz. Esto se utiliza a menudo en las aplicaciones de Xamarin.Forms para acceder a las funcionalidades y características específicas de la plataforma, pero también podemos usarla como un servicio de dependencia regular.
+Podemos utilizar el Xamarin.Forms [`DependencyService`](https://developer.xamarin.com/guides/xamarin-forms/dependency-service/) para reducir aún más el acoplamiento y permitirnos cambiar fácilmente las implementaciones de almacenamiento de datos con una sola línea de código. El `DependencyService` resuelve dependencias. En la práctica, se define una interfaz y el `DependencyService` encuentra la implementación correcta para esa interfaz. Esto se utiliza a menudo en las aplicaciones de Xamarin.Forms para acceder a las funcionalidades y características específicas de la plataforma, pero también podemos usarla como un servicio de dependencia regular.
 
 Hay tres partes principales en el `DependencyService`:
 
@@ -23,7 +23,7 @@ Hay tres partes principales en el `DependencyService`:
 2. **Implementation**: Implementación del contrato de interfaz. Podemos tener múltiples implementaciones.
 3. **Registration**: Cada clase de implementación debe estar registrada con el `DependencyService` a través de un atributo de metadatos. Esto permite que `DependencyService` encuentre la clase de implementación y lo suministre en tiempo de ejecución.
 
-Para los datos, esto es increíble! Podemos crear una interfaz que defina un contrato básico de almacenamiento de datos y que tenga múltiples implementaciones. Por ejemplo, podríamos tener una implementación en la nube que se utilice en la producción, además de una implementación de datos falsos (como hemos hecho hasta ahota) que se utilice durante las pruebas.
+¡Para tratar los datos esto es increíble! Podemos crear una interfaz que defina un contrato básico de almacenamiento de datos y que tenga múltiples implementaciones. Por ejemplo, podríamos tener una implementación en la nube que se utilice en la producción, además de una implementación de datos falsos (como hemos hecho hasta ahora) que se utilice durante las pruebas.
 
 ¡Creemos nuestro primer servicio! Comienza haciendo clic derecho en la carpeta `Services`, añadiendo una nueva interfaz C# en blanco y llamándola `IDataService`. Vamos a definir dos métodos que cada servicio debe implementar, `AddExpenseAsync` y `GetExpensesAsync`.
 
@@ -198,10 +198,9 @@ public NewExpenseViewModel()
 }
 ```
 
-Ahora que el código se agrega a 'AttachReceiptCommand`, vamos a agregar up poco de lógica para adjuntar un recibo. Los usuarios tendrán la opción de adjuntar fotos de sus recibos a sus gastos. Para ello, aprovecharemos **[Plugins para Xamarin] (https://github.com/xamarin/XamarinComponents)**. Los Plugins para Xamarin son NuGet y Componentes que añaden funcionalidad multiplataforma o abstrae la funcionalidad específica de la plataforma a una API común. Éstos son completamente completamente multiplataforma y muy pequeños (es decir, hacen 1 o 2 cosas realmente bien con dependencias mínimas). Se puede acceder a la API del Plugin en cada plataforma, sin embargo, lo más probable es que solo utilices la API común en un proyecto de tipo PCL o de código compartido.
+Ahora que el código se agrega a 'AttachReceiptCommand`, vamos a agregar un poco de lógica para adjuntar un recibo. Los usuarios tendrán la opción de adjuntar fotos de sus recibos a sus gastos. Para ello, aprovecharemos [Plugins para Xamarin](https://github.com/xamarin/XamarinComponents). Los Plugins para Xamarin son NuGet y Componentes que añaden funcionalidad multiplataforma o abstrae la funcionalidad específica de la plataforma a una API común. Éstos son completamente multiplataforma y muy pequeños (es decir, hacen 1 o 2 cosas realmente bien con dependencias mínimas). Se puede acceder a la API del Plugin en cada plataforma, sin embargo, lo más probable es que solo utilices la API común en un proyecto de tipo PCL o de código compartido.
 
-//TODO
-Para Spent, estaremos aprovechando el [Media Plugin para Xamarin y Windows] (https://blog.xamarin.com/getting-started-with-the-media-plugin-for-xamarin/) para tomar y/o seleccionar fotos de la biblioteca del usuario para adjuntar recibos. Los complementos se distribuyen a través de NuGet, y la dependencia ya ha sido añadida, así que vamos a agregar nuestra lógica de media al método `AttachReceiptAsync`.
+Para Spent, estaremos aprovechando el [Media Plugin para Xamarin y Windows](https://blog.xamarin.com/getting-started-with-the-media-plugin-for-xamarin/) para tomar y/o seleccionar fotos de la biblioteca del usuario para adjuntar recibos. Los complementos se distribuyen a través de NuGet, y la dependencia ya ha sido añadida, así que vamos a agregar nuestra lógica de media al método `AttachReceiptAsync`.
 
 Cuando se utiliza el Media Plugin para Xamarin, es importante que inicialices el complemento llamando a su método `Initialize`.
 
@@ -303,7 +302,7 @@ public NewExpenseViewModel()
 }
 ```
 
-¡Es hora de añadir lógica para guardar el gasto! Vuelve a `SaveExpenseAsync`. En el bloque try, "new up" un nuevo `Expense` utilizando las propiedades creadas anteriormente a este paso. A continuación, queremos utilizar el `MessagingCenter` añadido en el Módulo 1 para enviar un mensaje a `ExpensesViewModel` para guardar el nuevo gasto. Ya que creamos un `DependencyService`, podríamos acceder a nuestra capa de datos desde el `NewExpenseViewModel` sin problema - así que ¿por qué enviar un mensaje de vuelta a `ExpensesViewModel`? Si hacemos esto, podemos agregar el nuevo gasto directamente a `ObservableCollection <Expense>` al que los datos se enlazarán para que la interfaz de usuario se actualice automáticamente sin requerir interacción del usuario (como pull-to-refresh). Enviemos también un mensaje a nuestro futuro "NewExpensePage" para retroceder en la navegación.
+¡Es hora de añadir lógica para guardar el gasto! Vuelve a `SaveExpenseAsync`. En el bloque try, añade un nuevo `Expense` utilizando las propiedades creadas anteriormente a este paso. A continuación, queremos utilizar el `MessagingCenter` añadido en el Módulo 1 para enviar un mensaje a `ExpensesViewModel` para guardar el nuevo gasto. Ya que creamos un `DependencyService`, podríamos acceder a nuestra capa de datos desde el `NewExpenseViewModel` sin problema - así que ¿por qué enviar un mensaje de vuelta a `ExpensesViewModel`? Si hacemos esto, podemos agregar el nuevo gasto directamente a `ObservableCollection <Expense>` al que los datos se enlazarán para que la interfaz de usuario se actualice automáticamente sin requerir interacción del usuario (como pull-to-refresh). Enviemos también un mensaje a nuestro futuro "NewExpensePage" para retroceder en la navegación.
 
 ```csharp
 async Task SaveExpenseAsync()
@@ -332,8 +331,8 @@ async Task SaveExpenseAsync()
     }
 }
 ```
+¡Excelente! Ahora que tenemos completo nuestro `NewExpenseViewModel` volvamos ahora al `ExpensesViewModel` para suscribirnos al mensaje "AddExpense". Añade el siguiente código para suscribirte al mensaje "AddExpense" en el constructor de `ExpensesViewModel`, que añadirá el `Expense` al `ObservableCollection<Expense>` y lo guardará en nuestro mock de datos.
 
-Excellent! Now that we have our `NewExpenseViewModel` complete, let's hop over to `ExpensesViewModel` and subscribe to the "AddExpense" message. In the constructor for the `ExpensesViewModel`, add the following code to subscribe to the "AddExpense" message, which will add the `Expense` to the `ObservableCollection<Expense>` and save it to our mock data store.
 
 ```csharp
 MessagingCenter.Subscribe<NewExpenseViewModel, Expense>(this, "AddExpense", async (obj, expense) =>
@@ -343,8 +342,7 @@ MessagingCenter.Subscribe<NewExpenseViewModel, Expense>(this, "AddExpense", asyn
 	await DependencyService.Get<IDataService>().AddExpenseAsync(expense);
 });
 ```
-
-Excellent! Now that we've implemented all of the logic for our user interface in the view model, let's actually create our new expenses page.
+¡Excelente! Ahora que hemos implementado toda la lógica para la interfaz de usuario en el View Model, vámos a crear nuestra nueva página de gastos.
 
 ##### 3. Add new expense page.
 To add a new page, right-click the `Views` folder, and add a new `Forms ContentPage Xaml` page named `NewExpensePage`. Our new page will be fairly similar to the `ExpenseDetailPage`, except for instead of `Label`s we will be using the `Entry` control to allow users to input text (similar to a `TextBox` in Windows). We will also use the `Button` control to allow users to attach a photocopy of a receipt, and the `Image` control to display the attached image. The `Image` control is capable of displaying embedded, local, as well as photos on the web. If the source of the photo is from the web, Xamarin.Forms will automatically cache this photo for a set period of time for you. 
