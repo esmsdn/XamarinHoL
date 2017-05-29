@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Spent.ExpensesPage"
+		Title="Expenses">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Add" Command="{Binding AddExpenseCommand}" />
+	</ContentPage.ToolbarItems>
+	<ContentPage.Content>
+		<RelativeLayout x:Name="relativeLayout">
+			<StackLayout>
+				<ListView ItemsSource="{Binding Expenses}"
+					IsPullToRefreshEnabled="true"
+					IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+					RefreshCommand="{Binding GetExpensesCommand}"
+					SelectedItem="{Binding SelectedExpenseItem, Mode=TwoWay}"
+					CachingStrategy="RecycleElement">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<TextCell Text="{Binding Company}" Detail="{Binding Amount}" TextColor="{Binding Primary}" />
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</StackLayout>
+		</RelativeLayout>
+	</ContentPage.Content>
+</ContentPage>
