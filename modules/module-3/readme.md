@@ -8,7 +8,7 @@ Asegúrate de que tienes el siguiente software instalado
 * [Xamarin](xamarin.com/download)
 * **Opcional**: [SQLite para Universal Windows Platform](https://visualstudiogallery.msdn.microsoft.com/4913e7d5-96c9-4dde-a1a1-69820d615936) - Requerido para el uso de las Azure Mobile Apps en aplicaciones Universal Windows Platform (UWP).
 
-Este módulo usa Azure, así que asegúrate antes de empezarlo de que o bien tienes una [free trial (con 170€ en créditos)](https://azure.microsoft.com/es-es/offers/ms-azr-0044p/) o cuentas ya con una cuenta de Azure.
+Este módulo usa Azure, así que asegúrate antes de empezarlo de que o bien tienes una [free trial (con 170€ en créditos)](https://www.visualstudio.com/dev-essentials/) o cuentas ya con una cuenta de Azure. [Aquí](https://github.com/esmsdn/Workshops/blob/master/MicrosoftAzure/Microsoft%20Azure%20con%20Dev%20Essentials.md) tienes una guía de activación para tu cuenta Dev Essentials.
 
 Bájate el código de inicio para empezar este módulo, o continúa trabajando con el código ya completado del Módulo 2.
 
