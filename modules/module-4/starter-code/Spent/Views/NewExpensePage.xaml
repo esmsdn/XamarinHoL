@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Spent.NewExpensePage"
+		Title="New Expense">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Save" Command="{Binding SaveExpenseCommand}" />
+	</ContentPage.ToolbarItems>
+	<ContentPage.Content>
+		<StackLayout Padding="20">
+			<Label Text="Company" TextColor="{StaticResource MediumGrayTextColor}"/>
+			<Entry Text="{Binding Company}"/>
+			<Label Text="Description" TextColor="{StaticResource MediumGrayTextColor}"/>
+			<Entry Text="{Binding Description}" />
+			<Label Text="Date" TextColor="{StaticResource MediumGrayTextColor}"/>
+			<DatePicker Date="{Binding DateTime}" />
+			<Label Text="Amount" TextColor="{StaticResource MediumGrayTextColor}"/>
+			<Entry Text="{Binding Amount}" />
+			<Label Text="Receipt" TextColor="{StaticResource MediumGrayTextColor}"/>
+			<Button Text="Attach Receipt" Command="{Binding AttachReceiptCommand}" /> 
+			<Image Source="{Binding Receipt}"/>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>
